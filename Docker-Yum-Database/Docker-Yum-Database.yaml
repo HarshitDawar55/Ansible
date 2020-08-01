@@ -55,7 +55,7 @@
 
           - name: Docker Service Status
             debug:
-                    msg: "Docker Service Status => {{ docker_service_status }}"
+                    msg: "Docker Service Status => {{ docker_service_status.state}}"
 
 
 
