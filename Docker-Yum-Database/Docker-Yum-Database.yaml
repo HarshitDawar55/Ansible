@@ -59,18 +59,32 @@
                     msg: "Docker Service Status => {{ docker_service_status.state}}"
 
 
-        
+        # Downloading Docker-py Module for the Docker Pull to run on the managed node!
+          - name: Download docker-py Module
+            when: docker_service_status.state == "started"
+            pip:
+                    name: "docker-py"
+                    state: present
+            register: docker_py_status
+
+          - name: Docker-py Status
+            debug:
+                    msg: "Docker Py Download Failed Status => {{ docker_py_status.failed}}"
+
+
        # Downloading my Own Docker Image of Webserver! 
           - name: Downloading my Webserver Docker Image
-            when: docker_service_status.state == "started" 
+            when:
+                    - docker_service_status.state == "started" 
+                    - docker_py_status.failed == false
             docker_image:
                     name: harshitdawar/apache-webserver-and-php:latest
                     source: pull
                     state: present
             register: docker_imagePull_status
-
+       
           - name: Docker Image Pull Status
             debug:
-                    msg: "Docker Image Pull Status => {{ docker_imagePull_status}}"
+                    msg: "Docker Image Pull Failed Status => {{ docker_imagePull_status.failed}}"
 
 
