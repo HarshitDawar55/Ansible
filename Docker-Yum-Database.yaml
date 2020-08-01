@@ -22,5 +22,10 @@
                     description: Configure the Docker Community Edition repo
                     baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
                     gpgcheck: no
-            register: docker-ce-status
+            register: docker_ce_status
+
+          - name: Docker-CE Status
+            debug:
+                    msg: "{{ docker_ce_status }}"
+
 
