@@ -12,7 +12,7 @@
 
           - name: Epel Status
             debug:
-                    msg: "{{ epel_status.failed }}"
+                    msg: "Did EPEL Configuration Failed => {{  epel_status.failed }}"
 
           - name: Configuring Docker Yum Repository
             when: epel_status.failed == false
@@ -26,7 +26,7 @@
 
           - name: Docker-CE Status
             debug:
-                    msg: "{{ docker_ce_status.failed }}"
+                    msg: "Did Docker Configuration Failed => {{  docker_ce_status.failed }}"
 
           - name: Download Docker-CE 
             when: docker_ce_status.failed == false
@@ -37,7 +37,7 @@
 
           - name: Docker Installation Status
             debug:
-                    msg: "{{ docker_install_status }}"
+                    msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
 
 
 
