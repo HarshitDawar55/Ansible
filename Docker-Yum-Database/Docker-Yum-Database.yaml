@@ -14,6 +14,8 @@
             debug:
                     msg: "Did EPEL Configuration Failed => {{  epel_status.failed }}"
 
+
+
           - name: Configuring Docker Yum Repository
             when: epel_status.failed == false
             yum_repository:
@@ -28,6 +30,8 @@
             debug:
                     msg: "Did Docker Configuration Failed => {{  docker_ce_status.failed }}"
 
+
+
           - name: Download Docker-CE 
             when: docker_ce_status.failed == false
             command:
@@ -38,6 +42,20 @@
           - name: Docker Installation Status
             debug:
                     msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
+
+
+
+          - name: Start Docker Services
+            when: docker_install_status.rc == 0
+            service:
+                    name: "docker"
+                    state: started
+                    enabled: yes
+            register: docker_service_status
+
+          - name: Docker Service Status
+            debug:
+                    msg: "Docker Service Status => {{ docker_service_status }}"
 
 
 
