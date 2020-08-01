@@ -1,0 +1,20 @@
+- hosts: web
+  vars:
+  - pname: "httpd"
+  - user_name: "HarshitDawar"
+  tasks:
+  - package: 
+      name: "{{pname}}"
+      state: present
+
+  - copy: 
+      src: "/index.html"
+      dest: "/var/www/html/"
+
+  - service:
+      name: "httpd"
+      state: started
+
+  - debug:
+      var: "{{ user_name  }}"
+
