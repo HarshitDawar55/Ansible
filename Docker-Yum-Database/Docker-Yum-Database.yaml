@@ -59,5 +59,18 @@
                     msg: "Docker Service Status => {{ docker_service_status.state}}"
 
 
+        
+       # Downloading my Own Docker Image of Webserver! 
+          - name: Downloading my Webserver Docker Image
+            when: docker_service_status.state == "started" 
+            docker_image:
+                    name: harshitdawar/apache-webserver-and-php:latest
+                    source: pull
+                    state: present
+            register: docker_imagePull_status
+
+          - name: Docker Image Pull Status
+            debug:
+                    msg: "Docker Image Pull Status => {{ docker_imagePull_status}}"
 
 
