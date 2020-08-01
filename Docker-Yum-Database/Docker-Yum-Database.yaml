@@ -26,6 +26,8 @@
 
           - name: Docker-CE Status
             debug:
-                    msg: "{{ docker_ce_status }}"
+                    msg: "{{ docker_ce_status.failed }}"
+
+
 
 
