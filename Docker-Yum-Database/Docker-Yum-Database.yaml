@@ -1,6 +1,7 @@
 - name: PlayBook to configure Yum-Docker-MySQL
   hosts: Database
   tasks:
+          # Configuring Yum for Epel Packages
           - name: Configure the Yum with epel
             yum_repository:
                     name: epel
@@ -15,7 +16,7 @@
                     msg: "Did EPEL Configuration Failed => {{  epel_status.failed }}"
 
 
-
+        # Configuring Yum for the Docker Repository
           - name: Configuring Docker Yum Repository
             when: epel_status.failed == false
             yum_repository:
@@ -31,7 +32,7 @@
                     msg: "Did Docker Configuration Failed => {{  docker_ce_status.failed }}"
 
 
-
+        # Downloading Docker 
           - name: Download Docker-CE 
             when: docker_ce_status.failed == false
             command:
@@ -44,7 +45,7 @@
                     msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
 
 
-
+        # Starting the Docker Services
           - name: Start Docker Services
             when: docker_install_status.rc == 0
             service:
