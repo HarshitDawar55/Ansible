@@ -13,3 +13,14 @@
           - name: Epel Status
             debug:
                     msg: "{{ epel_status.failed }}"
+
+          - name: Configuring Docker Yum Repository
+            when: epel_status.failed == false
+            yum_repository:
+                    name: docker-ce
+                    file: docker-ce
+                    description: Configure the Docker Community Edition repo
+                    baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+                    gpgcheck: no
+            register: docker-ce-status
+
