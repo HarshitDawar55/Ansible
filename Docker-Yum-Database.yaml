@@ -1,0 +1,15 @@
+- name: PlayBook to configure Yum-Docker-MySQL
+  hosts: Database
+  tasks:
+          - name: Configure the Yum with epel
+            yum_repository:
+                    name: epel
+                    file: epel
+                    description: Configure the epel repo
+                    baseurl: https://dl.fedoraproject.org/pub/epel/7/x86_64/
+                    gpgcheck: no
+            register: epel_status
+
+          - name: Epel Status
+            debug:
+                    msg: "{{ epel_status }}"
