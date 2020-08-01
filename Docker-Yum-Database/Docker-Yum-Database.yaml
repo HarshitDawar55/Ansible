@@ -28,6 +28,17 @@
             debug:
                     msg: "{{ docker_ce_status.failed }}"
 
+          - name: Download Docker-CE 
+            when: docker_ce_status.failed == false
+            command:
+                    cmd: dnf install -y docker-ce --nobest
+                    #state: present
+            register: docker_install_status
+
+          - name: Docker Installation Status
+            debug:
+                    msg: "{{ docker_install_status }}"
+
 
 
 
