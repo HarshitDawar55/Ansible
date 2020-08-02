@@ -129,5 +129,5 @@
 
           - name: Firewall Daemon Status
             debug:
-                    msg: "Firewall Daemon Status => {{ firewalld_status}}"
+                    msg: "Firewall Daemon State => {{ firewalld_status.state}}"
 
