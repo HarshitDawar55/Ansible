@@ -8,9 +8,11 @@
 - This Repository will act as a complete Guide for Ansible, explaining each concept of Ansible with their practical code scripts written in YAML Language!
 - For brief introduction of Ansible please refer to the section given below!
 
-# What is Kubernetes?
+# What is Ansible?
 
-- It is a very advanced tool which is used for the management of the container, whether the container might be using any tool like Docker, Podman, CRI-O, rocket, etc.
+- It is an Automation Tool & also the best automation tool available in the market.
+
+- 
 
 - In Technical terms Kubernetes is also known as the container cluster orchestration tool, which means that it is used to manage the complete cluster of container with various resources and services.
 
