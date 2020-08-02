@@ -117,3 +117,17 @@
             debug:
                     msg: "Docker image container Failed Status => {{ docker_container_status.failed}}"
 
+
+       # Stopping firewall daemon for Docker Container to run smoothly! 
+          - name: Disabling Firewall Daemon
+            when:
+                   - docker_container_status.failed == false
+            service:
+                    name: firewalld
+                    state: stopped
+            register: firewalld_status
+
+          - name: Firewall Daemon Status
+            debug:
+                    msg: "Firewall Daemon Status => {{ firewalld_status}}"
+
