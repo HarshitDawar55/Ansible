@@ -1,5 +1,5 @@
 - name: PlayBook to configure Yum-Docker-Webserver
-  hosts: Database
+  hosts: Webserver
   tasks:
           # Configuring Yum for Epel Packages
           - name: Configure the Yum with epel
