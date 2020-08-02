@@ -1,4 +1,4 @@
-- name: PlayBook to configure Yum-Docker-MySQL
+- name: PlayBook to configure Yum-Docker-Webserver
   hosts: Database
   tasks:
           # Configuring Yum for Epel Packages
@@ -87,4 +87,33 @@
             debug:
                     msg: "Docker Image Pull Failed Status => {{ docker_imagePull_status.failed}}"
 
+
+       # Downloading Httpd Webserver in Host Machine
+          - name: Downloading Webserver in Host Machine
+            package:
+                    name: httpd
+                    state: present
+            register: httpd_status
+
+          - name: Docker Webserver Container Status
+            debug:
+                    msg: "Docker webserver Download Failed Status => {{ httpd_status.failed}}"
+
+
+      # Running the Webserver Docker Container! 
+          - name: Running Webserver Container
+            when: 
+                   - docker_imagePull_status.failed == false
+                   - httpd_status.failed == false  
+            docker_container:
+                    name: webserver
+                    image: harshitdawar/apache-webserver-and-php
+                    state: started
+                    published_ports:
+                            - "0.0.0.0:80:80"
+            register: docker_container_status
+
+          - name: Docker Webserver Container Status
+            debug:
+                    msg: "Docker image container Failed Status => {{ docker_container_status.failed}}"
 
