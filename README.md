@@ -19,7 +19,13 @@
 
   * Therefore to perform configuration automatically, Ansible is required. Although there are other competitors of Ansible in the market like Puppet & Chef, but Ansible is more powerful and mature product.
 
+  * Ansible works on different mechanism i.e. **Push Mechanism** while Puppet & Chef works on **Pull Mechanism** which has multiple advantages for Ansbile.
+
+  * It is a **Agentless tool**.
   
+  * It supports **Ad-hoc commands & Script(Playbooks)**.
+
+
 
 
 
