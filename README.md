@@ -27,6 +27,13 @@
 
 
 
+# How to run Ansible Playbook?
+- To run Ansible Playbook, run the command **"ansible-playbook" <path to the playbook>**.
+
+- Ansible code can only be written in YAML Language.
+
+
+
 
 
 
