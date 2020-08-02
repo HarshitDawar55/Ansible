@@ -72,13 +72,13 @@
                     msg: "Docker Py Download Failed Status => {{ docker_py_status.failed}}"
 
 
-       # Downloading my Own Docker Image of Webserver! 
-          - name: Downloading my Webserver Docker Image
+       # Downloading my MySQL Docker image! 
+          - name: Downloading mySQL Docker Image
             when:
                     - docker_service_status.state == "started" 
                     - docker_py_status.failed == false
             docker_image:
-                    name: harshitdawar/apache-webserver-and-php:latest
+                    name: mysql
                     source: pull
                     state: present
             register: docker_imagePull_status
