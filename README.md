@@ -26,17 +26,15 @@
   * It supports **Ad-hoc commands & Script(Playbooks)**.
 
 
+# How to download Ansible?
+- In order to download the Ansible software:
+  * As it is **written in python**, so, it can be downloaded using the package manager of Python i.e. **pip**.
+  * Based on your python version, run the command **"pip3 install ansible"**.
 
 # How to run Ansible Playbook?
 - To run Ansible Playbook, run the command **"ansible-playbook" <path to the playbook>**.
 
 - Ansible code can only be written in YAML Language.
-
-
-
-
-
-
 
 # License of this Repository!
 To check out the License for this Repository please click [here!](LICENSE)
