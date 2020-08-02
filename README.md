@@ -17,6 +17,10 @@
 - It is used for **configuration management**.
   * To explain its use in detail, consider an environment in which we have machine of heterogenous system (OS) installed in them, to configure them manually i.e. to install some packages, or to perform some changes in the system manually is not possible practically, if we have a very large set-up (practical scenario in most of the companies). 
 
+  * Therefore to perform configuration automatically, Ansible is required. Although there are other competitors of Ansible in the market like Puppet & Chef, but Ansible is more powerful and mature product.
+
+  
+
 
 
 
