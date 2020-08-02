@@ -1,0 +1,90 @@
+- name: PlayBook to configure Yum-Docker-MySQL
+  hosts: Database
+  tasks:
+          # Configuring Yum for Epel Packages
+          - name: Configure the Yum with epel
+            yum_repository:
+                    name: epel
+                    file: epel
+                    description: Configure the epel repo
+                    baseurl: https://dl.fedoraproject.org/pub/epel/7/x86_64/
+                    gpgcheck: no
+            register: epel_status
+
+          - name: Epel Status
+            debug:
+                    msg: "Did EPEL Configuration Failed => {{  epel_status.failed }}"
+
+
+        # Configuring Yum for the Docker Repository
+          - name: Configuring Docker Yum Repository
+            when: epel_status.failed == false
+            yum_repository:
+                    name: docker-ce
+                    file: docker-ce
+                    description: Configure the Docker Community Edition repo
+                    baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+                    gpgcheck: no
+            register: docker_ce_status
+
+          - name: Docker-CE Status
+            debug:
+                    msg: "Did Docker Configuration Failed => {{  docker_ce_status.failed }}"
+
+
+        # Downloading Docker 
+          - name: Download Docker-CE 
+            when: docker_ce_status.failed == false
+            command:
+                    cmd: dnf install -y docker-ce --nobest
+                    #state: present
+            register: docker_install_status
+
+          - name: Docker Installation Status
+            debug:
+                    msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
+
+
+        # Starting the Docker Services
+          - name: Start Docker Services
+            when: docker_install_status.rc == 0
+            service:
+                    name: "docker"
+                    state: started
+                    enabled: yes
+            register: docker_service_status
+
+          - name: Docker Service Status
+            debug:
+                    msg: "Docker Service Status => {{ docker_service_status.state}}"
+
+
+        # Downloading Docker-py Module for the Docker Pull to run on the managed node!
+          - name: Download docker-py Module
+            when: docker_service_status.state == "started"
+            pip:
+                    name: "docker-py"
+                    state: present
+            register: docker_py_status
+
+          - name: Docker-py Status
+            debug:
+                    msg: "Docker Py Download Failed Status => {{ docker_py_status.failed}}"
+
+
+       # Downloading my Own Docker Image of Webserver! 
+          - name: Downloading my Webserver Docker Image
+            when:
+                    - docker_service_status.state == "started" 
+                    - docker_py_status.failed == false
+            docker_image:
+                    name: harshitdawar/apache-webserver-and-php:latest
+                    source: pull
+                    state: present
+            register: docker_imagePull_status
+       
+          - name: Docker Image Pull Status
+            debug:
+                    msg: "Docker Image Pull Failed Status => {{ docker_imagePull_status.failed}}"
+
+
