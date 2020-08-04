@@ -1,0 +1,32 @@
+- name: PlayBook to configure Yum-Docker-Webserver
+  hosts: Webserver
+  tasks:
+          # Configuring Yum for Epel Packages
+          - name: Configure the Yum with epel
+            yum_repository:
+                    name: epel
+                    file: epel
+                    description: Configure the epel repo
+                    baseurl: https://dl.fedoraproject.org/pub/epel/7/x86_64/
+                    gpgcheck: no
+            register: epel_status
+
+          - name: Epel Status
+            debug:
+                    msg: "Did EPEL Configuration Failed => {{  epel_status.failed }}"
+
+
+        # Configuring Yum for the Docker Repository
+          - name: Configuring Docker Yum Repository
+            when: epel_status.failed == false
+            yum_repository:
+                    name: docker-ce
+                    file: docker-ce
+                    description: Configure the Docker Community Edition repo
+                    baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+                    gpgcheck: no
+            register: docker_ce_status
+
+          - name: Docker-CE Status
+            debug:
+                    msg: "Did Docker Configuration Failed => {{  docker_ce_status.failed }}"
