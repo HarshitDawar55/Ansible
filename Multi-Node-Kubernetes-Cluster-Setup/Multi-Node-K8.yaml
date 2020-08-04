@@ -58,4 +58,17 @@
 
           - name: Firewall Daemon Status
             debug:
-                    msg: "Firewall Daemon State => {{ firewalld_status.state}}"
+                    msg: "Firewall Daemon Failed State => {{ firewalld_status.state}}"
+
+
+         # Disabling SELINUX
+          - name: Disabling SELINUX
+            when: firewalld_status.failed == false
+            command:
+                    cmd: setenforce 0
+                    #state: present
+            register: SEL_Disable_status
+
+          - name: SeLinux Disable Status
+            debug:
+                    msg: "SeLinux Disable Failed Status => {{ docker_install_status.failed }}"
