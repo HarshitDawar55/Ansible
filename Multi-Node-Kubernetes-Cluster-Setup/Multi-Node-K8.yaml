@@ -31,6 +31,22 @@
             debug:
                     msg: "Did Docker Configuration Failed => {{  docker_ce_status.failed }}"
 
+        # Configuring Yum for the kubernetes Repository
+          - name: Configuring kubernetes Yum Repository
+            yum_repository:
+                    name: kubernetes
+                    file: kubernetes
+                    description: Configure the kubernetes repo
+                    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+                    gpgcheck: yes
+                    gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+            register: kubernetes_status
+
+          - name: Kubernetes Repo Status
+            debug:
+                    msg: "Did Kubernetes Repo Configuration Failed => {{  kubernetes_status.failed }}"
+
+
         # Stopping firewall daemon for Docker Container to run smoothly! 
           - name: Disabling Firewall Daemon
             when:
