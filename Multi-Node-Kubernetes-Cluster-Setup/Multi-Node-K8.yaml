@@ -137,6 +137,7 @@
             when: docker_py_status.failed == False
             blockinfile:
               path: "/etc/docker/daemon.json"
+              create: yes
               block:
                 {
                   "exec-opts": ["native.cgroupdriver=systemd"]
