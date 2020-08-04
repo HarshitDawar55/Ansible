@@ -113,6 +113,13 @@
                     msg: "Docker Service Status => {{ docker_service_status.state}}"
 
 
+        # Installing Python3 in the Machine for Pip3 and Docker-py Module
+          - name: Installing Python3 and Pip3
+            package:
+              name: python36
+              state: present
+
+
         # Downloading Docker-py Module for the Docker Pull to run on the managed node!
           - name: Download docker-py Module
             when: docker_service_status.state == "started"
