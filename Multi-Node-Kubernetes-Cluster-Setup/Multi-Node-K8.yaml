@@ -57,6 +57,17 @@
             debug:
                     msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
 
+        # Downloading Kubernetes 
+          - name: Download Kubernetes
+            when: kubernetes_status.failed == false
+            command:
+                    cmd: dnf install -y kubelet kubectl kubeadm --disableexcludes=kubernetes
+            register: docker_install_status
+
+          - name: Docker Installation Status
+            debug:
+                    msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
+
 
         # Stopping firewall daemon for Docker Container to run smoothly! 
           - name: Disabling Firewall Daemon
