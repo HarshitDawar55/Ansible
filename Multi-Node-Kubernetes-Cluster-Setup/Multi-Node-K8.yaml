@@ -118,6 +118,11 @@
             package:
               name: python36
               state: present
+            register: p36_status
+
+          - name: Python3 & Pip3 Status
+            debug:
+                    msg: "Python3 & Pip3 Download Failed Status => {{ p36_status.failed}}"
 
 
         # Downloading Docker-py Module for the Docker Pull to run on the managed node!
