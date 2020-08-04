@@ -1,5 +1,5 @@
-- name: PlayBook to configure Yum-Docker-Webserver
-  hosts: Webserver
+- name: PlayBook to configure Kubernetes_Master
+  hosts: Kubernetes_Master
   tasks:
           # Configuring Yum for Epel Packages
           - name: Configure the Yum with epel
