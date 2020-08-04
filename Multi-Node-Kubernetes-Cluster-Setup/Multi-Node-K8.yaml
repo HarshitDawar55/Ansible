@@ -165,3 +165,14 @@
           - name: Swap_Replace Status
             debug:
                     msg: "Swap Replace Failed Status => {{ Swap_Replace_status.failed }}"
+
+        # Installing the IpRoute-TC package
+          - name: Installing IpRoute-TC
+            package:
+              name: "iproute-tc"
+              state: present
+            register: IPRouteTC_status
+
+          - name: IpRoute-TC Installation Status
+            debug:
+                    msg: "IPRoute-TC Installtion Failed Status => {{ IPRouteTC_status.failed }}"
