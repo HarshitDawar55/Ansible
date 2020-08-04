@@ -176,3 +176,15 @@
           - name: IpRoute-TC Installation Status
             debug:
                     msg: "IPRoute-TC Installtion Failed Status => {{ IPRouteTC_status.failed }}"
+
+
+        # Starting & Enabling the Kubelet Service
+          - name: Starting & Enabling Kunelet
+            service:
+              name: "kubelet"
+              state: started
+            register: Kubelete_status
+
+          - name: Kubelete Service Status
+            debug:
+                    msg: "Kubelet service failed => {{ IPRouteTC_status.failed }}"
