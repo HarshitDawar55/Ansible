@@ -115,7 +115,7 @@
 
         # Downloading Docker-py Module for the Docker Pull to run on the managed node!
           - name: Download docker-py Module
-            when: docker_service_status.state == "started
+            when: docker_service_status.state == "started"
             pip:
                     name: "docker-py"
                     state: present
