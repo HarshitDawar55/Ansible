@@ -49,8 +49,6 @@
 
         # Stopping firewall daemon for Docker Container to run smoothly! 
           - name: Disabling Firewall Daemon
-            when:
-                   - docker_container_status.failed == false
             service:
                     name: firewalld
                     state: stopped
@@ -71,4 +69,4 @@
 
           - name: SeLinux Disable Status
             debug:
-                    msg: "SeLinux Disable Failed Status => {{ docker_install_status.failed }}"
+                    msg: "SeLinux Disable Failed Status => {{ SEL_Disable_status.failed }}"
