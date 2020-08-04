@@ -147,8 +147,21 @@
                 {
                   "exec-opts": ["native.cgroupdriver=systemd"]
                 }
-            register: docker_py_status
+            register: docker_CGroup_status
 
           - name: Docker-py Status
             debug:
-                    msg: "Docker Py Download Failed Status => {{ docker_py_status.failed}}"
+                    msg: "Docker Cgroup Replacement Failed Status => {{ docker_CGroup_status.failed}}"
+
+        # Disabling Swap for Kubectl Efficient Working!
+          - name: Disabling Swap
+            when: docker_py_status.failed == False
+            replace:
+              dest: "/etc/fstab"
+              regexp: "^/dev/mapper/rhel-swap"
+              replace: "#/dev/mapper/rhel-swap"
+            register: Swap_Replace_status
+
+          - name: Swap_Replace Status
+            debug:
+                    msg: "Swap Replace Failed Status => {{ Swap_Replace_status.failed }}"
