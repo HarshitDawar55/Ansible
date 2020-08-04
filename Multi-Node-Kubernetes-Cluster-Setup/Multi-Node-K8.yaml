@@ -46,6 +46,17 @@
             debug:
                     msg: "Did Kubernetes Repo Configuration Failed => {{  kubernetes_status.failed }}"
 
+        # Downloading Docker 
+          - name: Download Docker-CE 
+            when: docker_ce_status.failed == false
+            command:
+                    cmd: dnf install -y docker-ce --nobest
+            register: docker_install_status
+
+          - name: Docker Installation Status
+            debug:
+                    msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
+
 
         # Stopping firewall daemon for Docker Container to run smoothly! 
           - name: Disabling Firewall Daemon
