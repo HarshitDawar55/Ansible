@@ -30,3 +30,16 @@
           - name: Docker-CE Status
             debug:
                     msg: "Did Docker Configuration Failed => {{  docker_ce_status.failed }}"
+
+        # Stopping firewall daemon for Docker Container to run smoothly! 
+          - name: Disabling Firewall Daemon
+            when:
+                   - docker_container_status.failed == false
+            service:
+                    name: firewalld
+                    state: stopped
+            register: firewalld_status
+
+          - name: Firewall Daemon Status
+            debug:
+                    msg: "Firewall Daemon State => {{ firewalld_status.state}}"
