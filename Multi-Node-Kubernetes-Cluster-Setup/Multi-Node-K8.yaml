@@ -171,7 +171,7 @@
           - name: Adding information about all the hosts
             blockinfile:
               dest: "/etc/hosts"
-              block: " 192.168.1.11 master \n
+              block: " 192.168.1.11 Master \n
                        192.168.1.12 Worker1 \n
                        192.168.1.13 Worker2  "
               
@@ -393,7 +393,7 @@
           - name: Adding information about all the hosts
             blockinfile:
               dest: "/etc/hosts"
-              block: " 192.168.1.11 master \n
+              block: " 192.168.1.11 Master \n
                        192.168.1.12 Worker1 \n
                        192.168.1.13 Worker2  "
               
