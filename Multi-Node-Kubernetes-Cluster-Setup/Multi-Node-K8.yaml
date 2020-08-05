@@ -143,9 +143,10 @@
             blockinfile:
               path: "/etc/docker/daemon.json"
               create: yes
+              marker: ""
               block:
                 "{
-                  'exec-opts': ['native.cgroupdriver=systemd']
+                  \"exec-opts\": [\"native.cgroupdriver=systemd\"]
                 }"
             register: docker_CGroup_status
 
@@ -170,9 +171,9 @@
           - name: Adding information about all the hosts
             blockinfile:
               dest: "/etc/hosts"
-              block: " 192.168.1.11 master
-                       192.168.1.12 worker1
-                       192.168.1.13 worker2 "
+              block: " 192.168.1.11 master \n
+                       192.168.1.12 Worker1 \n
+                       192.168.1.13 Worker2  "
               
             register: Swap_Replace_status
 
