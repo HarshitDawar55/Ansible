@@ -144,9 +144,9 @@
               path: "/etc/docker/daemon.json"
               create: yes
               block:
-                {
-                  "exec-opts": ["native.cgroupdriver=systemd"]
-                }
+                "{
+                  'exec-opts': ['native.cgroupdriver=systemd']
+                }"
             register: docker_CGroup_status
 
           - name: Docker-py Status
@@ -183,8 +183,19 @@
             service:
               name: "kubelet"
               state: started
+              enabled: yes
             register: Kubelete_status
 
           - name: Kubelete Service Status
             debug:
                     msg: "Kubelet service failed => {{ IPRouteTC_status.failed }}"
+
+        # Adding the support of Flannel Network for Overlay Network
+          - name: Adding Flannel Network
+            command:
+              cmd: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+            register: Flannel_status
+
+          - name: Flannel Network Status
+            debug:
+                    msg: "Flannel Network failed => {{ Flannel_status.failed }}"
