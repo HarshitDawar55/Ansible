@@ -289,7 +289,7 @@
           - name: Download Kubernetes
             when: kubernetes_status.failed == false
             command:
-                    cmd: dnf install -y kubelet kubectl --disableexcludes=kubernetes
+                    cmd: dnf install -y kubelet kubectl kubeadm --disableexcludes=kubernetes
             register: docker_install_status
 
           - name: Docker Installation Status
