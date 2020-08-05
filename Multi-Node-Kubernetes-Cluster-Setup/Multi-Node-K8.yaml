@@ -416,7 +416,7 @@
 
 
         # Starting & Enabling the Kubelet Service
-          - name: Starting & Enabling Kunelet
+          - name: Starting & Enabling Kubelet
             service:
               name: "kubelet"
               state: started
