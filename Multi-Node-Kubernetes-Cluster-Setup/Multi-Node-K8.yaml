@@ -166,6 +166,20 @@
             debug:
                     msg: "Swap Replace Failed Status => {{ Swap_Replace_status.failed }}"
 
+        # Adding Ip of hosts in the /etc/hosts File
+          - name: Adding information about all the hosts
+            blockinfile:
+              dest: "/etc/hosts"
+              block: " 192.168.1.11 master
+                       192.168.1.12 worker1
+                       192.168.1.13 worker2 "
+              
+            register: Swap_Replace_status
+
+          - name: Swap_Replace Status
+            debug:
+                    msg: "Swap Replace Failed Status => {{ Swap_Replace_status.failed }}"
+
         # Installing the IpRoute-TC package
           - name: Installing IpRoute-TC
             package:
