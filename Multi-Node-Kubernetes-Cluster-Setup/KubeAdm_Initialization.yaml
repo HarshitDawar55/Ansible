@@ -14,17 +14,37 @@
             
 
         
-        # Ceating the required stuff after Kubeadm init successful
+        # Creating the required sdirectory after Kubeadm init successful
           - name: Creating the required directories
-            shell:
-              cmd: "mkdir -p $HOME/.kube"
-               # - "sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config"
+            file:
+              path: "mkdir -p $HOME/.kube"
+              state: directory
                 #- "sudo chown $(id -u):$(id -g) $HOME/.kube/config"
             register: KubeAdm_Commands_status
 
           - name: KubeAdm Commands Status
             debug:
                   msg: "{{ KubeAdm_Commands_status }}"
+
+          # Copying the required stuff after Kubeadm init successful
+          - name: Copy command of KubeAdm
+            shell:
+              cmd: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+            register: KubeAdm_CP_Commands_status
+
+          - name: KubeAdm Copy Commands Status
+            debug:
+                  msg: "{{ KubeAdm_CP_Commands_status }}"
+
+          # Changing the ownership of the directories
+          - name: Changing ownership of directories
+            shell:
+              cmd: sudo chown $(id -u):$(id -g) $HOME/.kube/config
+            register: KubeAdm_Chaning_Ownership_Commands_status
+
+          - name: KubeAdm Changing ownership Commands Status
+            debug:
+                  msg: "{{ KubeAdm_Chaning_Ownership_Commands_status }}"
 
         
         # Adding the support of Flannel Network for Overlay Network
