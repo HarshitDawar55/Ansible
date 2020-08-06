@@ -243,17 +243,17 @@
 
           - name: KubeAdm Status
             debug:
-                    msg: "{{ KubeAdm_status }}"
+                  msg: "{{ KubeAdm_status }}"
 
         # Adding the support of Flannel Network for Overlay Network
-         # - name: Adding Flannel Network
-          #  command:
-           #   cmd: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-            #register: Flannel_status
+          - name: Adding Flannel Network
+            command:
+              cmd: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+            register: Flannel_status
 
-#          - name: Flannel Network Status
- #           debug:
-  #                  msg: "Flannel Network failed => {{ Flannel_status.failed }}"
+          - name: Flannel Network Status
+            debug:
+                msg: "Flannel Network failed => {{ Flannel_status.failed }}"
 
 
 
