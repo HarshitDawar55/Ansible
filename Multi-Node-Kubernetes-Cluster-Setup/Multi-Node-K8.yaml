@@ -66,13 +66,18 @@
         # Downloading Kubernetes 
           - name: Download Kubernetes
             when: kubernetes_status.failed == false
-            command:
-                    cmd: dnf install -y kubelet kubectl kubeadm --disableexcludes=kubernetes
-            register: docker_install_status
+            package:
+              name:
+                - "kubeadm"
+                - "kubelet"
+                - "kubectl"
+              state: present
+              disable_excludes: "kubernetes"
+            register: k8_install_status
 
-          - name: Docker Installation Status
+          - name: Kubernetes Installation Status
             debug:
-                    msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
+                    msg: "Kubernetes Installation Return Code => {{ k8_install_status.rc }}"
 
 
         # Stopping firewall daemon for Docker Container to run smoothly! 
@@ -90,9 +95,9 @@
          # Disabling SELINUX
           - name: Disabling SELINUX
             when: firewalld_status.failed == false
-            command:
-                    cmd: setenforce 0
-                    #state: present
+            selinux:
+              state: permissive
+              policy: targeted
             register: SEL_Disable_status
 
           - name: SeLinux Disable Status
@@ -145,8 +150,8 @@
               create: yes
               marker: ""
               block:
-                "{
-                  \"exec-opts\": [\"native.cgroupdriver=systemd\"]
+                "{\n
+                  \"exec-opts\": [\"native.cgroupdriver=systemd\"]\n
                 }"
             register: docker_CGroup_status
 
@@ -171,9 +176,10 @@
           - name: Adding information about all the hosts
             blockinfile:
               dest: "/etc/hosts"
-              block: " 192.168.1.11 Master \n
-                       192.168.1.12 Worker1 \n
-                       192.168.1.13 Worker2  "
+              block: " 192.168.1.11     master \n
+                       192.168.1.12     worker1 \n
+                       192.168.1.13     worker2  "
+              marker: ""
               
             register: Swap_Replace_status
 
@@ -193,8 +199,31 @@
                     msg: "IPRoute-TC Installtion Failed Status => {{ IPRouteTC_status.failed }}"
 
 
+        # Reloading Systemd driver
+          - name: Reloading systemd driver
+            systemd:
+              daemon_reload: yes
+            register: SD_status
+
+          - name: Systemd Reload Status
+            debug:
+                    msg: "SystemD Reload Failed Status => {{ IPRouteTC_status.failed }}"
+
+
+        # Restarting docker services
+          - name: Restarting Docker services
+            service:
+              name: "docker"
+              state: restarted
+            register: DSR_Status
+
+          - name: Docker restart Reload Status
+            debug:
+                    msg: "DSR Reload Failed Status => {{ IPRouteTC_status.failed }}"
+
+
         # Starting & Enabling the Kubelet Service
-          - name: Starting & Enabling Kunelet
+          - name: Starting & Enabling Kubelet
             service:
               name: "kubelet"
               state: started
@@ -393,9 +422,10 @@
           - name: Adding information about all the hosts
             blockinfile:
               dest: "/etc/hosts"
-              block: " 192.168.1.11 Master \n
-                       192.168.1.12 Worker1 \n
-                       192.168.1.13 Worker2  "
+              block: " 192.168.1.11     master \n
+                       192.168.1.12     worker1 \n
+                       192.168.1.13     worker2  "
+              marker: ""
               
             register: Swap_Replace_status
 
