@@ -234,42 +234,7 @@
             debug:
                     msg: "Kubelet service failed => {{ Kubelet_status.failed }}"
 
-        # Initializing the Master Node with Kubeadm service
-          - name: Initializing Master Node
-            when: Kubelet_status.failed == false
-            shell:
-              cmd: kubeadm init --pod-network-cidr=10.1.1.1/16
-            register: KubeAdm_status
-
-          - name: KubeAdm Status
-            debug:
-                  msg: "{{ KubeAdm_status }}"
-
-        
-        # Ceating the required stuff after Kubeadm init successful
-          - name: Creating the required directories
-            when: KubeAdm_status.failed == false
-            shell:
-              cmd: 
-                - mkdir -p $HOME/.kube
-                - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-                - sudo chown $(id -u):$(id -g) $HOME/.kube/config
-            register: KubeAdm_Commands_status
-
-          - name: KubeAdm Commands Status
-            debug:
-                  msg: "{{ KubeAdm_Commands_status }}"
-
-        
-        # Adding the support of Flannel Network for Overlay Network
-          - name: Adding Flannel Network
-            command:
-              cmd: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-            register: Flannel_status
-
-          - name: Flannel Network Status
-            debug:
-                msg: "Flannel Network failed => {{ Flannel_status.failed }}"
+      
 
 
 
@@ -279,7 +244,8 @@
 - name: PlayBook to configure Kubernetes_Workers
   hosts: Kubernetes_Workers
   tasks:
-          # Configuring Yum for Epel Packages
+
+      # Configuring Yum for Epel Packages
           - name: Configure the Yum with epel
             yum_repository:
                     name: epel
@@ -344,13 +310,18 @@
         # Downloading Kubernetes 
           - name: Download Kubernetes
             when: kubernetes_status.failed == false
-            command:
-                    cmd: dnf install -y kubelet kubectl kubeadm --disableexcludes=kubernetes
-            register: docker_install_status
+            package:
+              name:
+                - "kubeadm"
+                - "kubelet"
+                - "kubectl"
+              state: present
+              disable_excludes: "kubernetes"
+            register: k8_install_status
 
-          - name: Docker Installation Status
+          - name: Kubernetes Installation Status
             debug:
-                    msg: "Docker Installation Return Code => {{ docker_install_status.rc }}"
+                    msg: "Kubernetes Installation Return Code => {{ k8_install_status.rc }}"
 
 
         # Stopping firewall daemon for Docker Container to run smoothly! 
@@ -368,9 +339,9 @@
          # Disabling SELINUX
           - name: Disabling SELINUX
             when: firewalld_status.failed == false
-            command:
-                    cmd: setenforce 0
-                    #state: present
+            selinux:
+              state: permissive
+              policy: targeted
             register: SEL_Disable_status
 
           - name: SeLinux Disable Status
@@ -423,8 +394,8 @@
               create: yes
               marker: ""
               block:
-                "{
-                  \"exec-opts\": [\"native.cgroupdriver=systemd\"]
+                "{\n
+                  \"exec-opts\": [\"native.cgroupdriver=systemd\"]\n
                 }"
             register: docker_CGroup_status
 
@@ -471,6 +442,7 @@
             debug:
                     msg: "IPRoute-TC Installtion Failed Status => {{ IPRouteTC_status.failed }}"
 
+
         # Reloading Systemd driver
           - name: Reloading systemd driver
             systemd:
@@ -500,9 +472,9 @@
               name: "kubelet"
               state: started
               enabled: yes
-            register: Kubelete_status
+            register: Kubelet_status
 
           - name: Kubelete Service Status
             debug:
-                    msg: "Kubelet service failed => {{ IPRouteTC_status.failed }}"
-
+                    msg: "Kubelet service failed => {{ Kubelet_status.failed }}"
+          
