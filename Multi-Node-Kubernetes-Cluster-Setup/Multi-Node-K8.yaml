@@ -248,7 +248,9 @@
         # Chaning the name of the Host machine to Master
           - name: Chaning the name of the Host machine to Master
             shell:
-              cmd: hostnamectl set-hostname master
+              cmd: 
+              - hostnamectl set-hostname master
+              - exec bash
             register: hostname_status
 
           - name: Hostname change Status
