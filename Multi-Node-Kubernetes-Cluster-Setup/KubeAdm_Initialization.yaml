@@ -1,0 +1,39 @@
+- name: PlayBook to configure Kubernetes_Master (Final Configuration of KubeAdm)
+  hosts: Kubernetes_Master
+  tasks:
+# Initializing the Master Node with Kubeadm service
+          - name: Initializing Master Node
+            when: Kubelet_status.failed == false
+            shell:
+              cmd: kubeadm init --pod-network-cidr=57.1.1.1/16
+            register: KubeAdm_status
+
+          - name: KubeAdm Status
+            debug:
+                  msg: "{{ KubeAdm_status }}"
+
+        
+        # Ceating the required stuff after Kubeadm init successful
+          - name: Creating the required directories
+            when: KubeAdm_status.failed == false
+            shell:
+              cmd: 
+                - mkdir -p $HOME/.kube
+                - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+                - sudo chown $(id -u):$(id -g) $HOME/.kube/config
+            register: KubeAdm_Commands_status
+
+          - name: KubeAdm Commands Status
+            debug:
+                  msg: "{{ KubeAdm_Commands_status }}"
+
+        
+        # Adding the support of Flannel Network for Overlay Network
+          - name: Adding Flannel Network
+            command:
+              cmd: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+            register: Flannel_status
+
+          - name: Flannel Network Status
+            debug:
+                msg: "Flannel Network failed => {{ Flannel_status.failed }}"
