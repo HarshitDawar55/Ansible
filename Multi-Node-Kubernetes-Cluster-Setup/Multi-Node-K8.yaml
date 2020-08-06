@@ -228,13 +228,22 @@
               name: "kubelet"
               state: started
               enabled: yes
-            register: Kubelete_status
+            register: Kubelet_status
 
           - name: Kubelete Service Status
             debug:
-                    msg: "Kubelet service failed => {{ IPRouteTC_status.failed }}"
+                    msg: "Kubelet service failed => {{ Kubelet_status.failed }}"
 
+        # Initializing the Master Node with Kubeadm service
+          - name: Initializing Master Node
+            when: Kubelet_status.failed == false
+            shell:
+              cmd: kubeadm init --pod-network-cidr=10.1.1.1/16
+            register: KubeAdm_status
 
+          - name: KubeAdm Status
+            debug:
+                    msg: "{{ KubeAdm_status }}"
 
         # Adding the support of Flannel Network for Overlay Network
          # - name: Adding Flannel Network
