@@ -245,6 +245,22 @@
             debug:
                   msg: "{{ KubeAdm_status }}"
 
+        
+        # Ceating the required stuff after Kubeadm init successful
+          - name: Creating the required directories
+            when: KubeAdm_status.failed == false
+            shell:
+              cmd: 
+                - mkdir -p $HOME/.kube
+                - sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+                - sudo chown $(id -u):$(id -g) $HOME/.kube/config
+            register: KubeAdm_Commands_status
+
+          - name: KubeAdm Commands Status
+            debug:
+                  msg: "{{ KubeAdm_Commands_status }}"
+
+        
         # Adding the support of Flannel Network for Overlay Network
           - name: Adding Flannel Network
             command:
