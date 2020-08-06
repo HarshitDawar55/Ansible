@@ -243,7 +243,17 @@
 
           - name: Swappoff disable Status
             debug:
-                    msg: "Swapoff Disable failed => {{ swapoff_status.failed }}" 
+                    msg: "Swapoff Disable failed => {{ swapoff_status.failed }}"
+
+        # Chaning the name of the Host machine to Master
+          - name: Chaning the name of the Host machine to Master
+            shell:
+              cmd: hostnamectl set-hostname master
+            register: hostname_status
+
+          - name: Hostname change Status
+            debug:
+                    msg: "Hostname change failed => {{ hostname_status.failed }}" 
 
 
 
