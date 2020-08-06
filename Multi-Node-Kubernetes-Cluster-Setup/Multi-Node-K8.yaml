@@ -234,6 +234,8 @@
             debug:
                     msg: "Kubelet service failed => {{ IPRouteTC_status.failed }}"
 
+
+
         # Adding the support of Flannel Network for Overlay Network
          # - name: Adding Flannel Network
           #  command:
@@ -443,6 +445,28 @@
           - name: IpRoute-TC Installation Status
             debug:
                     msg: "IPRoute-TC Installtion Failed Status => {{ IPRouteTC_status.failed }}"
+
+        # Reloading Systemd driver
+          - name: Reloading systemd driver
+            systemd:
+              daemon_reload: yes
+            register: SD_status
+
+          - name: Systemd Reload Status
+            debug:
+                    msg: "SystemD Reload Failed Status => {{ IPRouteTC_status.failed }}"
+
+
+        # Restarting docker services
+          - name: Restarting Docker services
+            service:
+              name: "docker"
+              state: restarted
+            register: DSR_Status
+
+          - name: Docker restart Reload Status
+            debug:
+                    msg: "DSR Reload Failed Status => {{ IPRouteTC_status.failed }}"
 
 
         # Starting & Enabling the Kubelet Service
