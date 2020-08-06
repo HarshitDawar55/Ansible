@@ -234,7 +234,16 @@
             debug:
                     msg: "Kubelet service failed => {{ Kubelet_status.failed }}"
 
-      
+
+        # Disabling swap using command
+          - name: Disabling Swap
+            shell:
+              cmd: swapoff -a
+            register: swapoff_status
+
+          - name: Swappoff disable Status
+            debug:
+                    msg: "Swapoff Disable failed => {{ swapoff_status.failed }}" 
 
 
 
