@@ -11,5 +11,5 @@
         password: "{{ password }}"
         to: Harshit Dawar <harshit.dawar55@gmail.com>
         subject: "Test Mail from Ansible Playbook"
-        body: System {{ ansible_hostname }} has been successfully provisioned.
+        body: "Hello, This is the test mail from Ansible-Playbook!"
       delegate_to: localhost
