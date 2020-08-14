@@ -6,7 +6,9 @@
     - name: Terminating the already launched AWS Instance
       ec2:
         instance_type: t2.micro
+        # Image/AMI ID using which the instance is running 
         image: "ami-08706cb5f68222d09"
+        # Instance Id of the EC2-instance which has to be terminated.
         instance_ids:
           - i-08332d0ad3d36b493
         wait: yes
