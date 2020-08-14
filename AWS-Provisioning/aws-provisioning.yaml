@@ -1,5 +1,7 @@
 - name: Ansible-Playbook to provision AWS EC2-Instance
   hosts: localhost
+  vars_files:
+    - password,yaml
   tasks:
     - name: Launching an AWS Instance
       ec2:
