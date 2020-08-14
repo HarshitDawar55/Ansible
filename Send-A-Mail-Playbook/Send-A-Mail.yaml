@@ -1,0 +1,15 @@
+- name: Ansible-Playbook to send a Mail 
+  hosts: localhost
+  vars_files:
+    - password.yaml
+  tasks:
+    - name: Sending a Mail
+      mail:
+        host: smtp.gmail.com
+        port: 587
+        username: username@gmail.com
+        password: mysecret
+        to: John Smith <john.smith@example.com>
+        subject: Ansible-report
+        body: System {{ ansible_hostname }} has been successfully provisioned.
+      delegate_to: localhost
