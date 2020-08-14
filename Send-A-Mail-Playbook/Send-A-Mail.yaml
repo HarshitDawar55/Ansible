@@ -12,3 +12,4 @@
         to: "harshit.dawar55@gmail.com"
         subject: "Test Mail from Ansible Playbook"
         body: "Hello, This is the test mail from Ansible-Playbook!"
+        
