@@ -9,6 +9,6 @@
         port: 587
         username: "{{ EmailID }}"
         password: "{{ password }}"
-        to: Harshit Dawar <harshit.dawar55@gmail.com>
+        to: "harshit.dawar55@gmail.com"
         subject: "Test Mail from Ansible Playbook"
         body: "Hello, This is the test mail from Ansible-Playbook!"
