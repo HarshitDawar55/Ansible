@@ -9,7 +9,7 @@
         port: 587
         username: "{{ EmailID }}"
         password: "{{ password }}"
-        to: John Smith <john.smith@example.com>
-        subject: Ansible-report
+        to: Harshit Dawar <harshit.dawar55@gmail.com>
+        subject: "Test Mail from Ansible Playbook"
         body: System {{ ansible_hostname }} has been successfully provisioned.
       delegate_to: localhost
