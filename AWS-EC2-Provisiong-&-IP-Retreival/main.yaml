@@ -1,0 +1,19 @@
+- name: Ansible-Playbook to provision AWS EC2-Instance
+  hosts: localhost
+  vars_files:
+    - password.yaml
+  tasks:
+    - name: Launching an AWS Instance
+      ec2:
+        key_name: MyKeyFinal
+        instance_type: t2.micro
+        image: "ami-08706cb5f68222d09"
+        wait: yes
+        group_id: "sg-0202966a4cb160463"
+        count: 1
+        vpc_subnet_id: subnet-44e49308
+        assign_public_ip: yes
+        state: present
+        region: ap-south-1
+        aws_access_key: "{{ accessKey }}"
+        aws_secret_key: "{{ secretKey }}"
