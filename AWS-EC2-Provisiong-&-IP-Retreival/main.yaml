@@ -1,5 +1,6 @@
 - name: Ansible-Playbook to provision AWS EC2-Instance!
   hosts: localhost
+  gather_facts: false
   vars_files:
     - password.yaml
   tasks:
@@ -17,32 +18,12 @@
         region: ap-south-1
         aws_access_key: "{{ accessKey }}"
         aws_secret_key: "{{ secretKey }}"
+        instance_tags: 
+          Name: "Webserver"
       # Registering all the details of the provisioned Instance in a variable to retrieve Public IP
       register: EC2_Instance
 
-      # Displaying the Public IP of the AWS Instance
-    - name: Printing the Details of the Provisioned Instance
+    - name: Printing Public IP of the AWS Instance
       debug:
-        msg: "{{ EC2_Instance.public_ip }}"
+        msg: "{{ EC2_Instance.instances[0].public_ip }}"
 
-- name: Ansible-Playbook to Connect to EC2-Instance and Configure it for webserver!
-  hosts: "{{ EC2_Instance.public_ip }}"
-  tasks:
-    - name: Configuring the HTTPD server in the Instance
-      become: yes
-      become_user: ec2-user
-      become_method: sudo
-      package:
-        name: 
-          - httpd
-          - php
-        state: present
-      service:
-        name: httpd
-        state: started
-        enable: yes
-      register: Confi
-
-    - name: Printing the Configuration Details
-      debug:
-        msg: "{{ Confi }}"
