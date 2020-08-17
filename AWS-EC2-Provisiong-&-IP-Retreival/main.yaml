@@ -1,4 +1,4 @@
-- name: Ansible-Playbook to provision AWS EC2-Instance
+- name: Ansible-Playbook to provision AWS EC2-Instance!
   hosts: localhost
   vars_files:
     - password.yaml
@@ -20,6 +20,29 @@
       # Registering all the details of the provisioned Instance in a variable to retrieve Public IP
       register: EC2_Instance
 
+      # Displaying the Public IP of the AWS Instance
     - name: Printing the Details of the Provisioned Instance
       debug:
-        msg: "{{ EC2_Instance }}"
+        msg: "{{ EC2_Instance.public_ip }}"
+
+- name: Ansible-Playbook to Connect to EC2-Instance and Configure it for webserver!
+  hosts: "{{ EC2_Instance.public_ip }}"
+  tasks:
+    - name: Configuring the HTTPD server in the Instance
+      become: yes
+      become_user: ec2-user
+      become_method: sudo
+      package:
+        name: 
+          - httpd
+          - php
+        state: present
+      service:
+        name: httpd
+        state: started
+        enable: yes
+      register: Confi
+
+    - name: Printing the Configuration Details
+      debug:
+        msg: "{{ Confi }}"
