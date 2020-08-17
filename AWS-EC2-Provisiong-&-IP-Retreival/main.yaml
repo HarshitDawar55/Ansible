@@ -17,3 +17,7 @@
         region: ap-south-1
         aws_access_key: "{{ accessKey }}"
         aws_secret_key: "{{ secretKey }}"
+      register: EC2-Instance
+
+    - name: Printing the Details of the Provisioned Instance
+      debug: EC2-Instance
