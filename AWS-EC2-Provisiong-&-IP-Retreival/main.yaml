@@ -23,6 +23,7 @@
       # Registering all the details of the provisioned Instance in a variable to retrieve Public IP
       register: EC2_Instance
 
+  # Printing the Public IP of the instance!
     - name: Printing Public IP of the AWS Instance
       debug:
         msg: "{{ EC2_Instance.instances[0].public_ip }}"
