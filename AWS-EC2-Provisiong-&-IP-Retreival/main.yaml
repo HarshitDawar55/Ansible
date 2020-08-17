@@ -17,6 +17,7 @@
         region: ap-south-1
         aws_access_key: "{{ accessKey }}"
         aws_secret_key: "{{ secretKey }}"
+      # Registering all the details of the provisioned Instance in a variable to retrieve Public IP
       register: EC2-Instance
 
     - name: Printing the Details of the Provisioned Instance
