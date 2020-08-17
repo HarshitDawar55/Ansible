@@ -28,3 +28,26 @@
       debug:
         msg: "{{ EC2_Instance.instances[0].public_ip }}"
 
+    - name: Adding the Public IP to the Ansible Inventory
+      lineinfile:
+        path: "{{ HostsFile }}"
+        state: present
+        line: "{{ EC2_Instance.instances[0].public_ip }}   ansible_ssh_private_key_file={{KeyPath}}"
+
+    
+- name: Play to Install Softwares in EC2-Instance!
+  hosts:  "{{ EC2_Instance.instances[0].public_ip }}"
+  tasks:
+    - name: Installing Apache Webserver
+      package: 
+        name: "httpd"
+        state: present
+    - name: Enabling & Starting the Wenserver Service
+      service:
+        name: "httpd"
+        state: started
+        enab;e: yes
+        
+
+
+
