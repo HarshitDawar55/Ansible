@@ -44,7 +44,10 @@
 
     * Name which is according to the need of the Role is assigned to that role, & the same code can be sent to anyone in the world & can be executed in just one command, by just entering the host which needs to be configured using that role.
 
-    * Also, variables defined in the Role Directory can be changed at the run time very easily.
+    * Also, variables defined in the Role Directory can be **changed at the run time very easily**.
+
+# How to craete an Ansible Role?
+* To create an Ansible Role we need to run the command, **"ansible-galaxy init <rolename>"**
 
 # License of this Repository!
 To check out the License for this Repository please click [here!](LICENSE)
