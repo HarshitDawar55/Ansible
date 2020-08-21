@@ -47,7 +47,7 @@
     * Also, variables defined in the Role Directory can be **changed at the run time very easily**.
 
 # How to craete an Ansible Role?
-* To create an Ansible Role we need to run the command, **"ansible-galaxy init <rolename>"**
+* To create an Ansible Role we need to run the command, **"ansible-galaxy init 'rolename'"**
 
 # License of this Repository!
 To check out the License for this Repository please click [here!](LICENSE)
