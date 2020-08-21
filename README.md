@@ -54,7 +54,7 @@
 * **To customize the role path, we can also add our own Roles Path which is explained below.**
 
 # How to add External Roles Path?
-* To add your custom path for the Ansible Roles, enter this in your Inventory file **""**.
+* To add your custom path for the Ansible Roles, enter this in your Inventory file **"roles_path = 'path to the external Roles Folder'"**.
 
 # License of this Repository!
 To check out the License for this Repository please click [here!](LICENSE)
