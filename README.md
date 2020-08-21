@@ -49,9 +49,12 @@
 # How to craete an Ansible Role?
 * To create an Ansible Role we need to run the command, **"ansible-galaxy init 'rolename'"**.
 
-* By default Ansible reads the roles from 3 directories, if the created role is not present in any of those by-default directory, then it will not be executed.
+* **By default Ansible reads the roles from 3 directories, if the created role is not present in any of those by-default directory, then it will not be executed.**
 
+* **To customize the role path, we can also add our own Roles Path which is explained below.**
 
+# How to add External Roles Path?
+* To add your custom path for the Ansible Roles, enter this in your Inventory file **""**.
 
 # License of this Repository!
 To check out the License for this Repository please click [here!](LICENSE)
