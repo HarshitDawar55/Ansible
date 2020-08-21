@@ -25,12 +25,6 @@
   
   * It supports **Ad-hoc commands & Script(Playbooks)**.
 
-# Best/Good Practices for Code Management in Ansible!
-  * Code Management is very crucial thing in the Industry, because there projects are very big, that involves huge code, therefore proper management leads to ease of everything.
-
-  * To Manage Code, Ansible provide one functionality named **Roles**.
-    * A **Role** can be understood as a complete package with proper directory structure and file arrangement. 
-    * Name which is according to the need of the Role is assigned to that role, & the same code can be sent to anyone in the world & can be executed in just one command, by just entering the host which needs to be configured using that role.
 
 # How to download Ansible?
 - In order to download the Ansible software:
@@ -41,6 +35,16 @@
 - To run Ansible Playbook, run the command **"ansible-playbook" < path to the playbook >**.
 
 - Ansible code can only be written in YAML Language.
+
+# Best/Good Practices for Code Management in Ansible!
+  * Code Management is very crucial thing in the Industry, because there projects are very big, that involves huge code, therefore proper management leads to ease of everything.
+
+  * To Manage Code, Ansible provide one functionality named **Roles**.
+    * A **Role** can be understood as a complete package with proper directory structure and file arrangement. 
+
+    * Name which is according to the need of the Role is assigned to that role, & the same code can be sent to anyone in the world & can be executed in just one command, by just entering the host which needs to be configured using that role.
+
+    * Also, variables defined in the Role Directory can be changed at the run time very easily.
 
 # License of this Repository!
 To check out the License for this Repository please click [here!](LICENSE)
