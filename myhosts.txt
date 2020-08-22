@@ -1,6 +1,0 @@
-[Kubernetes_Master]
-192.168.1.9       ansible_user=root    ansible_ssh_pass=root
-
-[Kubernetes_Workers]
-192.168.1.12        ansible_user=root    ansible_ssh_pass=root
-192.168.1.13        ansible_user=root    ansible_ssh_pass=root
