@@ -1,2 +1,5 @@
 ---
 # vars file for Apache-Webserver
+
+port_listen: 81
+DocRoot: "/var/www/HarshitDawar/"
