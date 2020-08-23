@@ -1,4 +1,4 @@
 - name: Playbook to Configure the Apache Webserver using the Role!
-  hosts: <Host IP Here>
+  hosts: ec2
   roles:
     - role: Apache-Webserver
