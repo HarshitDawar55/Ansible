@@ -31,4 +31,10 @@
     dest: "{{ DocRoot }}"
     url: "https://raw.githubusercontent.com/HarshitDawar55/Ansible/master/index.php"
 
+- name: Starting Httpd Service
+  when: httpd_status.rc == 0
+  service:
+    name: "httpd"
+    state: "started"
+
 
