@@ -1,2 +1,6 @@
 ---
 # handlers file for Apache-Webserver
+- name: Trigger Httpd 
+  service:
+    name: "httpd"
+    state: restarted
