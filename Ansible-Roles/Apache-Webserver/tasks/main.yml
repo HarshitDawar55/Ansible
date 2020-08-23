@@ -1,5 +1,10 @@
 ---
 # tasks file for Apache-Webserver
+- name: Installing PHP
+  package:
+    name: "php"
+    state: "present"
+    
 - name: Install Httpd Package
   package:
     name: "httpd"
