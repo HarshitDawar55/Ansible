@@ -1,36 +1,29 @@
-Role Name
+Apache-Webserver
 =========
 
-A brief description of the role goes here.
+This role is used to configure the apache webserver with a test php file which will show the IPAddress of the host machine.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+No Pre-requisite as such, but it depends where you are using this role, if it is been used on AWS, then the account of AWS is required.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+port_listen => used to assign the port on which the Webserver will listen.
+DocRoot => Document Root of the Apache Webserver.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No Dependencies
 
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
 
 License
 -------
 
-BSD
+GNU v3.0
 
 Author Information
 ------------------
