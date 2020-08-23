@@ -11,8 +11,10 @@ No Pre-requisite as such, but it depends where you are using this role, if it is
 Role Variables
 --------------
 
-port_listen => used to assign the port on which the Webserver will listen.
-DocRoot => Document Root of the Apache Webserver.
+**port_listen** => used to assign the port on which the Webserver will listen.
+<br>
+
+**DocRoot** => Document Root of the Apache Webserver.
 
 Dependencies
 ------------
