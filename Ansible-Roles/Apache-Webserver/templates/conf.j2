@@ -1,6 +1,6 @@
 LISTEN {{ port_listen }}
 
-<VirtualHost  {{ ansible_default_ipv4_address }}:{{ port_listen }}
+<VirtualHost  {{ ansible_host }}:{{ port_listen }}>
 
 DocumentRoot {{ DocRoot }}
 
