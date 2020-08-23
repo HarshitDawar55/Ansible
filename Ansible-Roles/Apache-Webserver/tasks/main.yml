@@ -19,4 +19,10 @@
     dest: "/etc/httpd/conf.d/harshitdawar.conf"
     src: conf.j2
 
+- name: Copy WebPage from GitHub URL
+  when: dir_status.failed == false
+  get_url:
+    dest: "{{ DocRoot }}"
+    url: "https://raw.githubusercontent.com/HarshitDawar55/Ansible/master/index.php"
+
 
