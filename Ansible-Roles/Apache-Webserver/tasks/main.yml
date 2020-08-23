@@ -22,7 +22,7 @@
   when: httpd_status.rc == 0
   template:
     dest: "/etc/httpd/conf.d/HarshitDawar.conf"
-    src: conf.j2
+    src: templates/conf.j2
   notify: Trigger Httpd
 
 - name: Copy WebPage from GitHub URL
