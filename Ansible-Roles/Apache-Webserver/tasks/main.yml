@@ -21,7 +21,7 @@
 - name: Copying Configuration File to the custom configuration directory
   when: httpd_status.rc == 0
   template:
-    dest: "/etc/httpd/conf.d/harshitdawar.conf"
+    dest: "/etc/httpd/conf.d/HarshitDawar.conf"
     src: conf.j2
   notify: Trigger Httpd
 
