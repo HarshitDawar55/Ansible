@@ -4,6 +4,17 @@
   package:
     name: "httpd"
     state: present
-  register: htppd_status
+  register: httpd_status
+
+- name: Creating Document Root
+  file: 
+    state: directory
+    dest: "{{ DocRoot }}"
+
+- name: Copying Configuration File to the custom configuration directory
+  when: httpd_status.rc == 0
+  template:
+    dest: "/etc/httpd/conf.d/harshitdawar.conf"
+    src: conf.j2
 
 
