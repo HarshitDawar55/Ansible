@@ -4,7 +4,7 @@
   package:
     name: "php"
     state: "present"
-    
+
 - name: Install Httpd Package
   package:
     name: "httpd"
@@ -23,6 +23,7 @@
   template:
     dest: "/etc/httpd/conf.d/harshitdawar.conf"
     src: conf.j2
+  notify: Trigger Httpd
 
 - name: Copy WebPage from GitHub URL
   when: dir_status.failed == false
