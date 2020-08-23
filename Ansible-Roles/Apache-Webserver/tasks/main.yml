@@ -7,9 +7,11 @@
   register: httpd_status
 
 - name: Creating Document Root
+  when: httpd_status.rc == 0
   file: 
     state: directory
     dest: "{{ DocRoot }}"
+  register: dir_status
 
 - name: Copying Configuration File to the custom configuration directory
   when: httpd_status.rc == 0
