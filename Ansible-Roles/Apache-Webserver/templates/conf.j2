@@ -1,6 +1,7 @@
 Listen {{ port_listen }}
 
-<VirtualHost  {{ ansible_host }}:{{ port_listen }}>
+# Make sure to add the private IP Address below!
+<VirtualHost  {{ ec2_private_ip_address }}:{{ port_listen }}>
 
 DocumentRoot {{ DocRoot }}
 
