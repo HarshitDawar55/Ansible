@@ -1,0 +1,19 @@
+- name: Running Pod from my webserver Image
+  hosts: Kubernetes_Workers
+  tasks:
+    - name: Resetting KubeAdm
+      shell: kubeadm reset -f
+      notify:
+        - Copying Master token to Worker Node
+        - Attaching Worker Nodes to Master Node
+
+  handlers:
+    - name: Copying Master token to Worker Node
+      copy:
+        src: token
+        dest: joining-token
+
+    - name: Attaching Worker Nodes to Master Node
+      shell: |
+        tail -2 joining-token > token.sh
+        sh token.sh
