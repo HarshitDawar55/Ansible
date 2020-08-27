@@ -6,7 +6,7 @@
 # Initializing the Master Node with Kubeadm service
           - name: Initializing Master Node
             shell:
-              cmd: kubeadm init --pod-network-cidr=57.1.1.1/16
+              cmd: kubeadm init --pod-network-cidr=10.1.1.1/16
             register: KubeAdm_status
 
           - name: KubeAdm Status
