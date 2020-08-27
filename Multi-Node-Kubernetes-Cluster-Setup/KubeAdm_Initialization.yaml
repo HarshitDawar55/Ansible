@@ -1,6 +1,8 @@
 - name: PlayBook to configure Kubernetes_Master (Final Configuration of KubeAdm)
   hosts: Kubernetes_Master
   tasks:
+          - name: Resetting Master Node
+            shell: kubeadm reset -f
 # Initializing the Master Node with Kubeadm service
           - name: Initializing Master Node
             shell:
@@ -11,13 +13,15 @@
           - name: KubeAdm Status
             debug:
                   msg: "{{ KubeAdm_status }}"
-            
+
+          - name: Copying the Master Node Joining Token
+            local_action: copy content={{ KubeAdm_status }} dest=token
 
         
-        # Creating the required sdirectory after Kubeadm init successful
+        # Creating the required directory after Kubeadm init successful
           - name: Creating the required directories
             file:
-              path: "mkdir -p $HOME/.kube"
+              path: "$HOME/.kube"
               state: directory
                 #- "sudo chown $(id -u):$(id -g) $HOME/.kube/config"
             register: KubeAdm_Commands_status
@@ -27,7 +31,7 @@
                   msg: "{{ KubeAdm_Commands_status }}"
 
           # Copying the required stuff after Kubeadm init successful
-          - name: Copy command of KubeAdm
+          - name: Copying configuration file of Kubernetes to Home Directory
             shell:
               cmd: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
             register: KubeAdm_CP_Commands_status
