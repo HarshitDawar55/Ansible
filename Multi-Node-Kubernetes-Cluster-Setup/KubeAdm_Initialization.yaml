@@ -40,11 +40,11 @@
           - name: Changing ownership of directories
             shell:
               cmd: sudo chown $(id -u):$(id -g) $HOME/.kube/config
-            register: KubeAdm_Chaning_Ownership_Commands_status
+            register: KubeAdm_Changing_Ownership_Commands_status
 
           - name: KubeAdm Changing ownership Commands Status
             debug:
-                  msg: "{{ KubeAdm_Chaning_Ownership_Commands_status }}"
+                  msg: "{{ KubeAdm_Changing_Ownership_Commands_status }}"
 
         
         # Adding the support of Flannel Network for Overlay Network
