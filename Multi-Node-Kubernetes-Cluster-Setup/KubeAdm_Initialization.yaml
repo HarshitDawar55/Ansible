@@ -25,30 +25,41 @@
               state: directory
                 #- "sudo chown $(id -u):$(id -g) $HOME/.kube/config"
             register: KubeAdm_Commands_status
+            tags: AKI
 
           - name: KubeAdm Commands Status
             debug:
                   msg: "{{ KubeAdm_Commands_status }}"
+            tags: AKI
 
           # Copying the required stuff after Kubeadm init successful
           - name: Copying configuration file of Kubernetes to Home Directory
-            shell:
-              cmd: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+            become: yes
+            copy:
+              remote_src: yes
+              src: "/etc/kubernetes/admin.conf"
+              dest: "$HOME/.kube/config"
+            #shell:
+             # cmd: sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
             register: KubeAdm_CP_Commands_status
+            tags: AKI
 
           - name: KubeAdm Copy Commands Status
             debug:
                   msg: "{{ KubeAdm_CP_Commands_status }}"
+            tags: AKI
 
           # Changing the ownership of the directories
           - name: Changing ownership of directories
             shell:
               cmd: sudo chown $(id -u):$(id -g) $HOME/.kube/config
             register: KubeAdm_Changing_Ownership_Commands_status
+            tags: AKI
 
           - name: KubeAdm Changing ownership Commands Status
             debug:
                   msg: "{{ KubeAdm_Changing_Ownership_Commands_status }}"
+            tags: AKI
 
         
         # Adding the support of Flannel Network for Overlay Network
@@ -56,7 +67,9 @@
             command:
               cmd: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
             register: Flannel_status
+            tags: AKI
 
           - name: Flannel Network Status
             debug:
                 msg: "Flannel Network failed => {{ Flannel_status.failed }}"
+            tags: AKI
