@@ -8,14 +8,14 @@
             shell:
               cmd: kubeadm init --pod-network-cidr=57.1.1.1/16
             register: KubeAdm_status
-            ignore_errors: yes
 
           - name: KubeAdm Status
             debug:
                   msg: "{{ KubeAdm_status }}"
 
           - name: Copying the Master Node Joining Token
-            local_action: copy content={{ KubeAdm_status }} dest=token
+            # Very Important line, using stdout in very critical as it will save the output will proper formatting in the token file
+            local_action: copy content={{ KubeAdm_status.stdout }} dest=token
 
         
         # Creating the required directory after Kubeadm init successful
