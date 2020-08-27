@@ -36,6 +36,7 @@
           - name: Copying configuration file of Kubernetes to Home Directory
             become: yes
             copy:
+              # Used to Indicate that the file is already present at the Remote Host/Managed Node
               remote_src: yes
               src: "/etc/kubernetes/admin.conf"
               dest: "$HOME/.kube/config"
