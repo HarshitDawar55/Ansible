@@ -1,2 +1,6 @@
 ---
 # handlers file for HAProxy-Load-Balancer
+- name: Restarting HAProxy Services
+  service:
+    name: "haproxy"
+    state: restarted
