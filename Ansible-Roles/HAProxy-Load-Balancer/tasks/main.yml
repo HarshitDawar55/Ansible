@@ -4,3 +4,8 @@
   package:
     name: "{{ software }}"
     state: present
+
+- name: Copy the haproxy conf file to host
+  copy:
+    src: "Configuration-Files/haproxy.cfg"
+    dest: "/etc/haproxy/haproxy.cfg"
