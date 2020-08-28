@@ -7,7 +7,7 @@
 
 - name: Copy the haproxy conf file to host
   copy:
-    src: "haproxy.cfg"
+    src: "templates/haproxy.j2"
     dest: "/etc/haproxy/haproxy.cfg"
   notify: Restarting HAProxy Services
 
