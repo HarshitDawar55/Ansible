@@ -1,2 +1,6 @@
 ---
 # tasks file for HAProxy-Load-Balancer
+- name: Install HAProxy Software
+  package:
+    name: {{ software }}
+    state: present
