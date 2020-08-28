@@ -1,2 +1,3 @@
 ---
 # vars file for HAProxy-Load-Balancer
+software: "haproxy"
