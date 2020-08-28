@@ -1,0 +1,4 @@
+- name: PlayBook to configure the HAProxy Load Balancer Setup
+  hosts: HAProxy-LB
+  roles:
+    - role: HAProxy-Load-Balancer
