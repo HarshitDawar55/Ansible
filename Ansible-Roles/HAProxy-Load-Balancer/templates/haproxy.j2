@@ -85,8 +85,8 @@ backend static
 backend app
     balance     roundrobin
 
-    {%  for hosts in group["all"]   %}
+{%  for hosts in groups["all"]   %}
 
     server  app1 {{ hosts }}:80 check
 
-    {% endfor %}
+{% endfor %}
