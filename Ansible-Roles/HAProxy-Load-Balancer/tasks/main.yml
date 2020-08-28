@@ -10,3 +10,8 @@
     src: "haproxy.cfg"
     dest: "/etc/haproxy/haproxy.cfg"
 
+- name: Start the services
+  service:
+    name: "{{ software }}"
+    state: started
+
