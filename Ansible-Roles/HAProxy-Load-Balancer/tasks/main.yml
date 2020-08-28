@@ -14,5 +14,5 @@
   service:
     name: "{{ software }}"
     state: started
-    enable: yes
+    enabled: yes
 
