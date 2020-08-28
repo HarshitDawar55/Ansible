@@ -9,6 +9,7 @@
   copy:
     src: "haproxy.cfg"
     dest: "/etc/haproxy/haproxy.cfg"
+  notify: Restarting HAProxy Services
 
 - name: Start the services
   service:
