@@ -1,5 +1,6 @@
 ---
-# tasks file for Apache-Webserver
+# tasks file for apache_webserver
+
 - name: Installing PHP
   package:
     name: "php"
@@ -13,7 +14,7 @@
 
 - name: Creating Document Root
   when: httpd_status.rc == 0
-  file: 
+  file:
     state: directory
     dest: "{{ DocRoot }}"
   register: dir_status
@@ -27,7 +28,7 @@
   notify: Trigger Httpd
 
 - name: Copy WebPage from GitHub URL
-  when: dir_status.failed == false
+  when: dir_status.failed == "False"
   get_url:
     dest: "{{ DocRoot }}"
     url: "https://raw.githubusercontent.com/HarshitDawar55/Ansible/master/index.php"
@@ -38,5 +39,3 @@
     name: "httpd"
     state: started
     enabled: yes
-
-
