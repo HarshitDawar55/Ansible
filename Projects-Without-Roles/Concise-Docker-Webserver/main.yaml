@@ -1,2 +1,16 @@
 - name: Ansible Playbook to configure a webserver inside a Docker Container!
   hosts: Docker-Webserver
+  tasks:
+    # Adding the Docker Yum Repository link
+    - name: Adding the Yum Repository for Docker
+      yum_repository:
+        name: Docker-Repo
+        file: docker-ce
+        description: Configuring the Docker Community Edition repo
+        baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
+        gpgcheck: no
+      register: DockerRepoStatus
+
+    - name: Printing Docker Repo Configuration Status
+      debug:
+        msg: "Does Configuration Failed: {DockerRepoStatus.failed}"
