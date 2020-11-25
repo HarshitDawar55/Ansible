@@ -14,3 +14,12 @@
     - name: Printing Docker Repo Configuration Status
       debug:
         msg: "Does Configuration Failed: {DockerRepoStatus.failed}"
+
+    - name: Downloading the Docker Software
+      when: DockerRepoStatus.failed == false
+      shell: dnf install -y docker-ce --nobest
+      register: DDS
+
+    - name: Printing Docker Download Success
+      debug:
+        msg: "Docker Downloaded: {DDS.rc}"
