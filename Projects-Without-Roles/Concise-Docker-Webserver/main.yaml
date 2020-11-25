@@ -1,0 +1,2 @@
+- name: Ansible Playbook to configure a webserver inside a Docker Container!
+  hosts: Docker-Webserver
