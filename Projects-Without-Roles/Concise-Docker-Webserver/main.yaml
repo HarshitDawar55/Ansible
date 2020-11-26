@@ -60,15 +60,6 @@
       debug:
         msg: "Docker Py Download Failed Status: {{ docker_py_status.failed}}"
 
-    - name: Downloading the Webserver in the Host Machine
-      package:
-        name: httpd
-        state: present
-      register: WebStatus
-
-    - name: Webserver Status in Host Machine
-      debug:
-        msg: "Webserver Installation Failed: {{ WebStatus.failed }}"
 
     - name: Downloading Webserver Image for Docker
       when: Docker_Start_Status.state == started
@@ -81,3 +72,4 @@
     - name: Docker Image Download Status
       debug:
         msg: " Docker Image Pull Failed: {{ DockerPull.failed }}"
+
