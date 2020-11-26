@@ -25,3 +25,17 @@
     - name: Printing Docker Installation Success
       debug:
         msg: "Docker Installed: {{ DDS.rc }}   [Yes if 0 , otherwise No]"
+
+    - name: Disabling the Firewalld for Docker Operations with the external entities!
+      when: DDS.rc == 0
+      service:
+        name: firewalld
+        state: stopped
+      register: Firewall_Status
+
+    - name: Firewall Status
+      debug:
+        msg: "Firewall Daemon State: {{ Firewall_Status.state }}"
+
+
+        
