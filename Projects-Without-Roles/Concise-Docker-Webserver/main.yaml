@@ -26,17 +26,6 @@
       debug:
         msg: "Docker Installed: {{ DIS.rc }}   [Yes if 0 , otherwise No]"
 
-    - name: Disabling the Firewalld for Docker Operations with the external entities!
-      when: DIS.rc == 0
-      service:
-        name: firewalld
-        state: stopped
-      register: Firewall_Status
-
-    - name: Firewall Status
-      debug:
-        msg: "Firewall Daemon State: {{ Firewall_Status.state }}"
-
     - name: Starting the Docker Services
       when: DIS.rc == 0
       service:
@@ -74,26 +63,37 @@
       debug:
         msg: " Docker Image Pull Failed: {{ DockerPull.failed }}"
 
-    - name: Downloading Webserver in Local Machine
-      package:
-        name: httpd
-        state: present
-      register: WS_Local
-
-    - name: Printing Local Webserver Download Status
-      debug:
-        msg: " Webserver Download Failed: {{ WS_Local.failed }}"
-
-    - name: Exeuting the Webserver
+    - name: Starting the Firewalld for Docker Operations with the external entities!
       service:
-        name: httpd
+        name: firewalld
         state: started
-        enabled: yes
-      register: WS
+      register: Firewall_Status
 
-    - name: Printing the status of the Webserver
+    - name: Firewall Status
       debug:
-        msg: " Webserver Service State: {{WS.state}}"
+        msg: "Firewall Daemon State: {{ Firewall_Status.state }}"
+
+    - name: Creating the WebPages Directory
+      file:
+        path: /WebPages
+        state: directory
+      register: Direc
+
+    - name: Status of Directory Created
+      debug:
+        msg: "Directory Created: {{  Direc  }}"
+
+    - name: Copying the Index WebPage File into the Host Machine
+      copy:
+        src: "index.php"
+        dest: "/WebPages/index.php"
+        mode: '644'
+      register: cs
+
+    - name: Copy Status of the file
+      debug:
+        msg: "File Copied Failed: {{cs.failed}}"
+
 
     - name: Running the Webserver Container
       when: DockerPull.failed == false
@@ -103,10 +103,21 @@
         state: started
         published_ports:
           "0.0.0.0:80:80"
-        command: docker cp /index.php /var/www/html/
+        volumes:
+          - /WebPages:/usr/local/apache2/htdocs
+#        command: docker cp /index.php /var/www/html/
       register: Docker_Container_Status
 
     - name: Docker Container Running Status
       debug:
         msg: " Docker Container Launching Failed:  {{ Docker_Container_Status.failed }}"
 
+    - name: Disabling the Firewalld for Docker Operations with the external entities!
+      service:
+        name: firewalld
+        state: stopped
+      register: Firewall_Status_Stopped
+
+    - name: Firewall Status
+      debug:
+        msg: "Firewall Daemon State: {{ Firewall_Status_Stopped.state }}"
