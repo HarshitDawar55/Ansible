@@ -1,5 +1,5 @@
 - name: Ansible Playbook to configure a webserver inside a Docker Container!
-  hosts: Docker-Webserver
+  hosts: Docker_Webserver
   tasks:
     # Adding the Docker Yum Repository link
     - name: Adding the Yum Repository for Docker
