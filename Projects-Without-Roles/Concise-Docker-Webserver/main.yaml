@@ -50,11 +50,11 @@
         msg: "Docker Services Enabled & Started: {{Docker_Start_Status.state}}"
 
     - name: Installing Docker-py to support docker pull
-      when: Docker_Start_Status.state == started
-        pip:
-          name: "docker-py"
-          state: present
-        register: docker_py_status
+      when: Docker_Start_Status.state == "started"
+      pip:
+        name: "docker-py"
+        state: present
+      register: docker_py_status
 
     - name: Docker-py Status
       debug:
@@ -62,9 +62,10 @@
 
 
     - name: Downloading Webserver Image for Docker
-      when: Docker_Start_Status.state == started
+      when: Docker_Start_Status.state == "started"
       docker_image:
         name: httpd
+        tag: latest
         source: pull
         state: present
       register: DockerPull
@@ -72,4 +73,40 @@
     - name: Docker Image Download Status
       debug:
         msg: " Docker Image Pull Failed: {{ DockerPull.failed }}"
+
+    - name: Downloading Webserver in Local Machine
+      package:
+        name: httpd
+        state: present
+      register: WS_Local
+
+    - name: Printing Local Webserver Download Status
+      debug:
+        msg: " Webserver Download Failed: {{ WS_Local.failed }}"
+
+    - name: Exeuting the Webserver
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+      register: WS
+
+    - name: Printing the status of the Webserver
+      debug:
+        msg: " Webserver Service State: {{WS.state}}"
+
+    - name: Running the Webserver Container
+      when: DockerPull.failed == false
+      docker_container:
+        name: Webserver
+        image: httpd
+        state: started
+        published_ports:
+          "0.0.0.0:80:80"
+        command: docker cp /index.php /var/www/html/
+      register: Docker_Container_Status
+
+    - name: Docker Container Running Status
+      debug:
+        msg: " Docker Container Launching Failed:  {{ Docker_Container_Status.failed }}"
 
