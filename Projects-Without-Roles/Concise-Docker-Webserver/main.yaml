@@ -81,7 +81,7 @@
 
     - name: Status of Directory Created
       debug:
-        msg: "Directory Created: {{  Direc  }}"
+        msg: "Directory Creation Failed: {{  Direc.failed  }}"
 
     - name: Copying the Index WebPage File into the Host Machine
       copy:
