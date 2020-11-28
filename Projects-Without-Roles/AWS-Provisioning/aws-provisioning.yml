@@ -15,9 +15,14 @@
         assign_public_ip: yes
         state: present
         region: ap-south-1
+        zone: ap-south-1b
         aws_access_key: "{{ accessKey }}"
         aws_secret_key: "{{ secretKey }}"
         instance_tags: 
           Name: "Webserver"
       # Registering all the details of the provisioned Instance in a variable to retrieve Public IP
       register: EC2_Instance
+
+    - name: Print the Information about EC2 Instance
+      debug:
+        var: EC2_Instance.instances[0].public_ip
