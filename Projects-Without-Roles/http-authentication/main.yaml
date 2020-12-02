@@ -19,3 +19,8 @@ tasks:
       path: " {{ HTTP_CONF_MAIN }} "
       regexp: "AllowOverride None"
       replace: "AllowOverride AuthConfig"
+
+  - name: Copying the .HTACCESS File!
+    copy:
+      src: ".htaccess"
+      dest: "{{ Doc_Root }}.htaccess"
