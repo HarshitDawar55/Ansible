@@ -24,3 +24,4 @@ tasks:
     copy:
       src: ".htaccess"
       dest: "{{ Doc_Root }}.htaccess"
+
