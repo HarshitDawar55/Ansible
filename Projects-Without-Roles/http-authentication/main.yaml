@@ -31,4 +31,13 @@ tasks:
       name: "HarshitDawar"
       password: "HarshitDawar"
 
-      
+  - name: Starting the Webserver Services
+    service:
+      name: "httpd"
+      state: started
+
+handlers:
+  - name: Start Httpd
+    service:
+      name: "httpd"
+      state: restarted
