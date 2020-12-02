@@ -1,17 +1,21 @@
-name: Ansible Playbook to configure the HTTP Webserver with Authentication
+name: Ansible Playbook to configure the HTTP Webserver with Authentication!
 vars_files:
   - vars.yaml
 hosts: webserver
 tasks:
-  - name: Installing Apache Webserver
+  - name: Installing Apache Webserver!
     package:
       name: "httpd"
       state: "present"
     notify: Start Httpd
 
-  - name: Copying the basic Webpage Content
+  - name: Copying the basic Webpage Content!
     copy:
       content: "This is a demo of HTTP Authentication! "
       dest: "{{ Doc_Root }}"
 
-  - name: 
+  - name: Enabling the password checking while logging in!
+    replace:
+      path: " {{ HTTP_CONF_MAIN }} "
+      regexp: "AllowOverride None"
+      replace: "AllowOverride AuthConfig"
