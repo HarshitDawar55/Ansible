@@ -1,4 +1,6 @@
 name: Ansible Playbook to configure the HTTP Webserver with Authentication
+vars_files:
+  - vars.yaml
 hosts: webserver
 tasks:
   - name: Installing Apache Webserver
@@ -6,3 +8,10 @@ tasks:
       name: "httpd"
       state: "present"
     notify: Start Httpd
+
+  - name: Copying the basic Webpage Content
+    copy:
+      content: "This is a demo of HTTP Authentication! "
+      dest: "{{ Doc_Root }}"
+
+  - name: 
