@@ -1,4 +1,5 @@
 AuthName HarshitDawar
 AuthType basic
 AuthUserFile /etc/www.passwd
-Require valid-user 
+Require valid-user
+
