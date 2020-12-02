@@ -1,3 +1,6 @@
 Doc_Root: "/var/www/html/"
 HTTP_CONF_MAIN: "/etc/httpd/conf/httpd.conf"
 HTPASS_DIR: "/etc/www.passwd"
+softwares:
+  - python36
+  - httpd
