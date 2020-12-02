@@ -3,10 +3,11 @@ vars_files:
   - vars.yaml
 hosts: webserver
 tasks:
-  - name: Installing Apache Webserver!
+  - name: Installing The required Softwares!
     package:
-      name: "httpd"
+      name: "{{ item }}"
       state: "present"
+    loop: "{{ softwares }}"
     notify: Start Httpd
 
   - name: Copying the basic Webpage Content!
@@ -24,6 +25,10 @@ tasks:
     copy:
       src: ".htaccess"
       dest: "{{ Doc_Root }}.htaccess"
+
+  - name: Installing the passlib software for htpasswd module to work!
+    pip:
+      name: "passlib"
 
   - name: "Creating the Password for a user in the  {{ HTPASS_DIR }} file!"
     htpasswd:
