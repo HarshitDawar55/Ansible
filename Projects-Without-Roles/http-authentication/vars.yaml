@@ -1,1 +1,2 @@
 Doc_Root: "/var/www/html/"
+HTTP_CONF_MAIN: "/etc/httpd/conf/httpd.conf"
