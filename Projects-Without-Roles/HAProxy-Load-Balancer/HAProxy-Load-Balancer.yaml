@@ -28,3 +28,14 @@
         name: "haproxy"
         state: started
         enabled: yes
+
+
+- name: Play to Configure the Webservers for the Load Balancer!
+  hosts: Webservers
+  tasks:
+    - name: Mounting the Redhat DVD for the Apache Webserver Software!
+      mount:
+        path: "{{ dvd_mount_point }}"
+        src: /dev/sr0
+        state: present
+        fstype: "iso9660"
