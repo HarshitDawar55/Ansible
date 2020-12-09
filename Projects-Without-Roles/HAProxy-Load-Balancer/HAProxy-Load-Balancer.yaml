@@ -1,12 +1,24 @@
 - name: Play to configure the load balancer!
+  vars:
+    - dvd_mount_point = "/dvd/"
+    - conf_src = "haproxy.conf.j2"
+    - conf_dest = "/etc/haproxy/haproxy.conf"
   hosts: LB
   tasks:
     - name: Mounting the Redhat DVD for the HAProxy Software!
       mount:
-        path: /dvd/
+        path: "{{ dvd_mount_point }}"
         src: /dev/sr0
         state: present
         fstype: "iso9660"
 
     - name: Installing the HaProxy Software!
-      
+      package:
+        name: "haproxy"
+        state: present
+
+    - name: Copying the Configuration File of the HaProxy
+      template:
+        src: "{{ conf_src }}"
+        dest: "{{ conf_dest }}"
+        mode: "644"
