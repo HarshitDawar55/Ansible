@@ -1,0 +1,12 @@
+- name: Play to configure the load balancer!
+  hosts: LB
+  tasks:
+    - name: Mounting the Redhat DVD for the HAProxy Software!
+      mount:
+        path: /dvd/
+        src: /dev/sr0
+        state: present
+        fstype: "iso9660"
+
+    - name: Installing the HaProxy Software!
+      
