@@ -17,8 +17,14 @@
         name: "haproxy"
         state: present
 
-    - name: Copying the Configuration File of the HaProxy
+    - name: Copying the Configuration File of the HaProxy!
       template:
         src: "{{ conf_src }}"
         dest: "{{ conf_dest }}"
         mode: "644"
+
+    - name: Starting the Load Balancer services!
+      service:
+        name: "haproxy"
+        state: started
+        enabled: yes
