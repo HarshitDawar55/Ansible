@@ -84,6 +84,12 @@
         state: started
         enabled: yes
 
+    - name: Adding the Rule in the Firewall to allow Traffic on Port 80!
+      firewalld:
+        permanent: yes
+        port: 80/tcp
+        state: enabled
+
   handlers:
     - name: Start Httpd
       service:
