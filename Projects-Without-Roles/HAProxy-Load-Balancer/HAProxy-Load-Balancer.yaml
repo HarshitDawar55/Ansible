@@ -1,12 +1,17 @@
 - name: Play to configure the load balancer!
   vars:
-    - dvd_mount_point = "/dvd/"
-    - conf_src = "haproxy.conf.j2"
-    - conf_dest = "/etc/haproxy/haproxy.conf"
-    - web_conf = "index.html"
-    - web_dest = "/var/www/html/"
+    - dvd_mount_point: "/dvd/"
+    - conf_src: "haproxy.cfg.j2"
+    - conf_dest: "/etc/haproxy/haproxy.cfg"
+    - web_conf: "index.html"
+    - web_dest: "/var/www/html/"
   hosts: LB
   tasks:
+    - name: Creating the Mount point for the DVD
+      file:
+        path: "{{ dvd_mount_point }}"
+        state: directory
+
     - name: Mounting the Redhat DVD for the HAProxy Software!
       mount:
         path: "{{ dvd_mount_point }}"
@@ -33,8 +38,19 @@
 
 
 - name: Play to Configure the Webservers for the Load Balancer!
+  vars:
+    - dvd_mount_point: "/dvd/"
+    - conf_src: "haproxy.cfg.j2"
+    - conf_dest: "/etc/haproxy/haproxy.conf"
+    - web_conf: "index.html"
+    - web_dest: "/var/www/html/"
   hosts: Webservers
   tasks:
+    - name: Creating the Mount point for the DVD
+      file:
+        path: "{{ dvd_mount_point }}"
+        state: directory
+
     - name: Mounting the Redhat DVD for the Apache Webserver Software!
       mount:
         path: "{{ dvd_mount_point }}"
@@ -43,46 +59,46 @@
         fstype: "iso9660"
 
     - name: Installing Apache Webserver
-      when: "{{ ansible_facts['distribution'] }}" == "RedHat"
       package:
         name: "httpd"
         state: present
+      when: ansible_facts['distribution'] == "RedHat"
 
     - name: Copying the Webpage to the Destination
-      when: "{{ ansible_facts['distribution'] }}" == "RedHat"
       template:
         src: "{{ web_conf }}"
         dest: "{{ web_dest }}"
         mode: "644"
+      when: ansible_facts['distribution'] == "RedHat"
       notify: Start Httpd
 
     - name: Starting the services of the Webserver
-      when: "{{ ansible_facts['distribution'] }}" == "RedHat"
       service:
         name: "httpd"
         state: started
         enabled: yes
+      when: ansible_facts['distribution'] == "RedHat"
 
     - name: Installing Apache Webserver
-      when: "{{ ansible_facts['distribution'] }}" == "Ubuntu"
       package:
         name: "apache2"
         state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Copying the Webpage to the Destination
-      when: "{{ ansible_facts['distribution'] }}" == "Ubuntu"
       template:
         src: "{{ web_conf }}"
         dest: "{{ web_dest }}"
         mode: "644"
+      when: ansible_facts['distribution'] == "Ubuntu"
       notify: Start Httpd Ubuntu
 
     - name: Starting the services of the Webserver
-      when: "{{ ansible_facts['distribution'] }}" == "Ubuntu"
       service:
         name: "apache2"
         state: started
         enabled: yes
+      when: ansible_facts['distribution'] == "Ubuntu"
 
     - name: Adding the Rule in the Firewall to allow Traffic on Port 80!
       firewalld:
