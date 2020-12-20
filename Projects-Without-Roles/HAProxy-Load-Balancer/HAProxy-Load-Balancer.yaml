@@ -36,6 +36,13 @@
         name: "haproxy"
         state: started
         enabled: yes
+    - name: Adding Firewall Rule to allow Requests on Port 80!
+      firewalld:
+        permanent: yes
+        port: "80/tcp"
+        state: enabled
+        immediate: yes
+
 
 
 - name: Play to Configure the Webservers for the Load Balancer!
@@ -106,6 +113,7 @@
         permanent: yes
         port: "80/tcp"
         state: enabled
+        immediate: yes
 
   handlers:
     - name: Start Httpd
