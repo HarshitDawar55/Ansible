@@ -29,6 +29,7 @@
         src: "{{ conf_src }}"
         dest: "{{ conf_dest }}"
         mode: "644"
+      notify: Restart HAProxy
 
     - name: Starting the Load Balancer services!
       service:
@@ -103,7 +104,7 @@
     - name: Adding the Rule in the Firewall to allow Traffic on Port 80!
       firewalld:
         permanent: yes
-        port: 80/tcp
+        port: "80/tcp"
         state: enabled
 
   handlers:
@@ -115,4 +116,9 @@
     - name: Start Httpd Ubuntu
       service:
         name: "apache2"
+        state: restarted
+
+    - name: Restart HAProxy
+      service:
+        name: "haproxy"
         state: restarted
