@@ -29,6 +29,9 @@
 
     - name: Copying the NameNode IP Configuration File(HDFS-Site.xml)
       template:
+        src: Hadoop-Conf-Files/hdfs-site.xml
+        dest: "{{  hdfs_site_xml_dest  }}"
+        mode: '644'
 
 
   handlers:
