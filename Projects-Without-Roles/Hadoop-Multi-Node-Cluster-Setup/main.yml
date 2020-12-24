@@ -22,6 +22,14 @@
         url: "https://archive.apache.org/dist/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-1.x86_64.rpm"
         dest: "{{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm"
 
+    - name: Creating the NameNode Metadata Directory!
+      file:
+        path: "{{ NameNode_Dir }}"
+        state: directory
+
+    - name: Copying the NameNode IP Configuration File(HDFS-Site.xml)
+      template:
+
 
   handlers:
     - name: Installing Hadoop Software
