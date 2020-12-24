@@ -1,1 +1,2 @@
 hadoop_dir: "/etc/hadoop/"
+jdk: "/etc/hadoop/jdk-8u271-linux-x64.rpm"
