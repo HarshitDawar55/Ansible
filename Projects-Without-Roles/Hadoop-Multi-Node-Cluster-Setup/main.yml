@@ -27,10 +27,16 @@
         path: "{{ NameNode_Dir }}"
         state: directory
 
-    - name: Copying the NameNode IP Configuration File(HDFS-Site.xml)
+    - name: Copying the NameNode Metadata Configuration File(HDFS-Site.xml)!
       template:
         src: Hadoop-Conf-Files/hdfs-site.xml
         dest: "{{  hdfs_site_xml_dest  }}"
+        mode: '644'
+
+    - name: Copying the NameNode IP Configuration File (Core-Site.XML)!
+      template:
+        src: Hadoop-Conf-Files/core-site.xml
+        dest: "{{  core_site_xml_dest  }}"
         mode: '644'
 
 
