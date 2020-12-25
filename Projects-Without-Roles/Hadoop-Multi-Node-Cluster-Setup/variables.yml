@@ -3,4 +3,6 @@ jdk: "/etc/hadoop/jdk-8u271-linux-x64.rpm"
 NameNode_Dir: "/namenode"
 DataNode_Dir: "/datanode"
 NameNode_IP: "0.0.0.0"
+NameNode_Port: 9001
 hdfs_site_xml_dest: "/etc/hadoop/hdfs-site.xml"
+core_site_xml_dest: "/etc/hadoop/core-site.xml"
