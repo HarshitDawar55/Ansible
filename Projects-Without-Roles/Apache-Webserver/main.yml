@@ -1,0 +1,78 @@
+- name: Playbook to configure the Apache Webserver!
+  vars:
+    - dvd_mount_point: "/dvd/"
+    - web_conf: "index.html"
+    - web_dest: "/var/www/html/"
+  hosts: Webservers
+  tasks:
+    - name: Creating the Mount point for the DVD
+      file:
+        path: "{{ dvd_mount_point }}"
+        state: directory
+
+    - name: Mounting the Redhat DVD for the Apache Webserver Software!
+      mount:
+        path: "{{ dvd_mount_point }}"
+        src: /dev/sr0
+        state: present
+        fstype: "iso9660"
+
+    - name: Installing Apache Webserver
+      package:
+        name: "httpd"
+        state: present
+      when: ansible_facts['distribution'] == "RedHat"
+
+    - name: Copying the Webpage to the Destination
+      template:
+        src: "{{ web_conf }}"
+        dest: "{{ web_dest }}"
+        mode: "644"
+      when: ansible_facts['distribution'] == "RedHat"
+      notify: Start Httpd
+
+    - name: Starting the services of the Webserver
+      service:
+        name: "httpd"
+        state: started
+        enabled: yes
+      when: ansible_facts['distribution'] == "RedHat"
+
+    - name: Installing Apache Webserver
+      package:
+        name: "apache2"
+        state: present
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Copying the Webpage to the Destination
+      template:
+        src: "{{ web_conf }}"
+        dest: "{{ web_dest }}"
+        mode: "644"
+      when: ansible_facts['distribution'] == "Ubuntu"
+      notify: Start Httpd Ubuntu
+
+    - name: Starting the services of the Webserver
+      service:
+        name: "apache2"
+        state: started
+        enabled: yes
+      when: ansible_facts['distribution'] == "Ubuntu"
+
+    - name: Adding the Rule in the Firewall to allow Traffic on Port 80!
+      firewalld:
+        permanent: yes
+        port: "80/tcp"
+        state: enabled
+        immediate: yes
+
+  handlers:
+    - name: Start Httpd
+      service:
+        name: "httpd"
+        state: restarted
+
+    - name: Start Httpd Ubuntu
+      service:
+        name: "apache2"
+        state: restarted
