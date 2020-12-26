@@ -57,6 +57,59 @@
       when: hadoop_status.rc != 0
       command: hadoop-daemon.sh start namenode
 
+
+- name: Playbook to configure the Hadoop Worker Node!
+  hosts: WorkerNodes
+  vars_files:
+    - variables.yml
+  tasks:
+    - name: Creating a directory for the Hadoop Softwares!
+      file:
+        path: "{{ hadoop_dir }}"
+        state: directory
+
+    - name: Checking Java Installation Status!
+      command: "java -version"
+      register: java_status
+      ignore_errors: yes
+
+    - name: Installing Oracle Java-1.8.0
+      when: java_status.rc != 0
+      command: "rpm -ivh  {{ jdk }}"
+
+    - name: Downloading Hadoop-1.2.1 software!
+      notify: Installing Hadoop Software
+      get_url:
+        url: "https://archive.apache.org/dist/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-1.x86_64.rpm"
+        dest: "{{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm"
+
+    - name: Creating the DataNode Metadata Directory!
+      file:
+        path: "{{ DataNode_Dir }}"
+        state: directory
+
+    - name: Copying the DataNode Configuration File(HDFS-Site.xml)!
+      template:
+        src: Hadoop-Conf-Files/hdfs-site-DN.xml
+        dest: "{{  hdfs_site_xml_dest  }}"
+        mode: '644'
+
+    - name: Copying the DataNode IP Configuration File (Core-Site.XML)!
+      template:
+        src: Hadoop-Conf-Files/core-site.xml
+        dest: "{{  core_site_xml_dest  }}"
+        mode: '644'
+
+    - name: Checking the Hadoop Running Status
+      command: hadoop fs -ls /
+      register: hadoop_status
+      ignore_errors: yes
+
+    - name: Starting the Hadoop Services
+      when: hadoop_status.rc != 0
+      command: hadoop-daemon.sh start datanode
+
+
   handlers:
     - name: Installing Hadoop Software
       command: "rpm -ivh {{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm --force"
