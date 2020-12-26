@@ -6,6 +6,6 @@
 <configuration>
     <property>
         <name>fs.default.name</name>
-        <value>"hdfs://{{  NameNode_IP  }}:{{  NameNode_Port  }}"</value>
+        <value>hdfs://{{  NameNode_IP  }}:{{  NameNode_Port  }}</value>
     </property>
 </configuration>
