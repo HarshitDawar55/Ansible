@@ -22,10 +22,18 @@
       command: "rpm -ivh  {{ jdk }}"
 
     - name: Downloading Hadoop-1.2.1 software!
-      notify: Installing Hadoop Software
       get_url:
         url: "https://archive.apache.org/dist/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-1.x86_64.rpm"
         dest: "{{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm"
+
+    - name: Checking whether Hadoop Installed or not
+      command: which hadoop
+      register: hadoop_installaiton_status
+      ignore_errors: yes
+
+    - name: Installing Hadoop
+      when: hadoop_installaiton_status.rc != 0
+      command: "rpm -ivh {{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm --force"
 
     - name: Creating the NameNode Metadata Directory!
       file:
@@ -47,6 +55,24 @@
     - name: Formatiing the NameNode Metadata Directory for creating the proper filesystem format!
       command: hadoop namenode -format -force
       when: should_format == "Yes"
+      register: Format_Status
+      ignore_errors: yes
+
+    - name: Deleting the NameNode Directory Again!
+      when: Format_Status.rc != 0
+      file:
+        path: "{{ NameNode_Dir }}"
+        state: absent
+
+    - name: Creating the NameNode Directory Again!
+      when: Format_Status.rc != 0
+      file:
+        path: "{{ NameNode_Dir }}"
+        state: directory
+
+    - name: Formatiing the NameNode Metadata Directory for creating the proper filesystem format!
+      command: hadoop namenode -format -force
+      when: Format_Status.rc != 0
 
     - name: Checking the Hadoop Running Status
       command: hadoop dfsadmin -report
@@ -78,10 +104,18 @@
       command: "rpm -ivh  {{ jdk }}"
 
     - name: Downloading Hadoop-1.2.1 software!
-      notify: Installing Hadoop Software
       get_url:
         url: "https://archive.apache.org/dist/hadoop/common/hadoop-1.2.1/hadoop-1.2.1-1.x86_64.rpm"
         dest: "{{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm"
+
+    - name: Checking whether Hadoop Installed or not!
+      command: which hadoop
+      register: hadoop_installaiton_status
+      ignore_errors: yes
+
+    - name: Installing Hadoop!
+      when: hadoop_installaiton_status.rc != 0
+      command: "rpm -ivh {{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm --force"
 
     - name: Creating the DataNode Metadata Directory!
       file:
@@ -100,16 +134,11 @@
         dest: "{{  core_site_xml_dest  }}"
         mode: '644'
 
-    - name: Checking the Hadoop Running Status
-      command: hadoop fs -ls /
+    - name: Checking the Hadoop Running Status!
+      command: jps | grep DataNode
       register: hadoop_status
       ignore_errors: yes
 
-    - name: Starting the Hadoop Services
+    - name: Starting the Hadoop Services!
       when: hadoop_status.rc != 0
       command: hadoop-daemon.sh start datanode
-
-
-  handlers:
-    - name: Installing Hadoop Software
-      command: "rpm -ivh {{ hadoop_dir }}/hadoop-1.2.1-1.x86_64.rpm --force"
