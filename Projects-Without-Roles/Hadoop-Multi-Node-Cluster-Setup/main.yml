@@ -15,6 +15,7 @@
     - name: Checking Java Installation Status!
       command: "java -version"
       register: java_status
+      ignore_errors: yes
 
     - name: Installing Oracle Java-1.8.0
       when: java_status.rc != 0
@@ -46,6 +47,15 @@
     - name: Formatiing the NameNode Metadata Directory for creating the proper filesystem format!
       command: hadoop namenode -format -force
       when: should_format == "Yes"
+
+    - name: Checking the Hadoop Running Status
+      command: hadoop dfsadmin -report
+      register: hadoop_status
+      ignore_errors: yes
+
+    - name: Starting the Hadoop Services
+      when: hadoop_status.rc != 0
+      command: hadoop-daemon.sh start namenode
 
   handlers:
     - name: Installing Hadoop Software
