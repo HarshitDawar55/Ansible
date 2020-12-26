@@ -1,4 +1,8 @@
 - name: Playbook to configure the Hadoop Master Node!
+  vars_prompt:
+    - name: should_format
+      prompt: Should I format NameNode Metadata Directory (Yes / No)
+      private: No
   vars_files:
     - variables.yml
   hosts: MasterNode
@@ -38,6 +42,10 @@
         src: Hadoop-Conf-Files/core-site.xml
         dest: "{{  core_site_xml_dest  }}"
         mode: '644'
+
+    - name: Formatiing the NameNode Metadata Directory for creating the proper filesystem format!
+      command: hadoop namenode -format -force
+      when: should_format == "Yes"
 
   handlers:
     - name: Installing Hadoop Software
