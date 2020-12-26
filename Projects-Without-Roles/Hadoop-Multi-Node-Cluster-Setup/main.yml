@@ -75,7 +75,7 @@
       when: Format_Status.rc != 0
 
     - name: Checking the Hadoop Running Status
-      command: hadoop dfsadmin -report
+      command: jps | grep NameNode
       register: hadoop_status
       ignore_errors: yes
 
