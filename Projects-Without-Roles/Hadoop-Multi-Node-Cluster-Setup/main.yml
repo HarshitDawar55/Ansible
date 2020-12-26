@@ -38,7 +38,7 @@
         src: Hadoop-Conf-Files/core-site.xml
         dest: "{{  core_site_xml_dest  }}"
         mode: '644'
-
+      tags: test
 
   handlers:
     - name: Installing Hadoop Software
