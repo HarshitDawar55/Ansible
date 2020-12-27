@@ -59,29 +59,41 @@
       ignore_errors: yes
 
     - name: Deleting the NameNode Directory Again!
-      when: Format_Status.rc != 0
+      when: Format_Status.rc != 0 and should_format == "Yes"
       file:
         path: "{{ NameNode_Dir }}"
         state: absent
+      ignore_errors: yes
 
     - name: Creating the NameNode Directory Again!
-      when: Format_Status.rc != 0
+      when: Format_Status.rc != 0 and should_format == "Yes"
       file:
         path: "{{ NameNode_Dir }}"
         state: directory
+      ignore_errors: yes
 
     - name: Formatiing the NameNode Metadata Directory for creating the proper filesystem format!
       command: hadoop namenode -format -force
-      when: Format_Status.rc != 0
+      when: Format_Status.rc != 0 and should_format == "Yes"
+      ignore_errors: yes
 
     - name: Checking the Hadoop Running Status
-      command: jps | grep NameNode
+      # Using shell module here instead of command because the later do no possess the capability of piping capability!
+      shell: "jps | grep NameNode"
       register: hadoop_status
       ignore_errors: yes
 
     - name: Starting the Hadoop Services
       when: hadoop_status.rc != 0
       command: hadoop-daemon.sh start namenode
+
+    - name: Adding Firewall Rules for NameNode
+      firewalld:
+        port: "{{ item }}/tcp"
+        permanent: yes
+        immediate: yes
+        state: enabled
+      loop: "{{  NameNodePorts  }}"
 
 
 - name: Playbook to configure the Hadoop Worker Node!
@@ -135,10 +147,19 @@
         mode: '644'
 
     - name: Checking the Hadoop Running Status!
-      command: jps | grep DataNode
+      # Using shell module here instead of command because the later do no possess the capability of piping capability!
+      shell: "jps | grep DataNode"
       register: hadoop_status
       ignore_errors: yes
 
     - name: Starting the Hadoop Services!
       when: hadoop_status.rc != 0
       command: hadoop-daemon.sh start datanode
+
+    - name: Adding Firewall Rules for DataNode
+      firewalld:
+        port: "{{ item }}/tcp"
+        permanent: yes
+        immediate: yes
+        state: enabled
+      loop: "{{  DataNodePorts  }}"
