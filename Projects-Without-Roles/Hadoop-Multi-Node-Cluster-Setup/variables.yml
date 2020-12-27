@@ -6,3 +6,15 @@ NameNode_IP: "{{  groups['MasterNode'][0]  }}"
 NameNode_Port: 9001
 hdfs_site_xml_dest: "/etc/hadoop/hdfs-site.xml"
 core_site_xml_dest: "/etc/hadoop/core-site.xml"
+NameNodePorts:
+  - 50070
+  - 50470
+  - 8020
+  - 9000
+  - 9001
+  - 50090
+DataNodePorts:
+  - 50075
+  - 50475
+  - 50010
+  - 50020
