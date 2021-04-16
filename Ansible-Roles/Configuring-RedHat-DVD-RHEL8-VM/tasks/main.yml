@@ -1,2 +1,31 @@
 ---
 # tasks file for Configuring-RedHat-DVD-RHEL8-VM
+- name: Creating the DVD Mount Point!
+  file:
+    path: "{{ dvd_path }}"
+    state: directory
+
+- name: Mounting the DVD!
+  mount:
+    src: /dev/sr0
+    path: "{{ dvd_path }}"
+    fstype: iso9660
+    state: mounted
+
+- name: Creating the AppStream Repository!
+  blockinfile:
+    path: /etc/yum.repos.d/AppStream.repo
+    block: |
+      [AppStream]
+      name = AppStream
+      baseurl = "{{ dvd_path }}/AppStream"
+      gpgcheck = 0
+
+- name: Creating the BaseOS Repository!
+  blockinfile:
+    path: /etc/yum.repos.d/BaseOS.repo
+    block: |
+      [BaseOS]
+      name = BaseOS
+      baseurl = "{{ dvd_path }}/BaseOS"
+      gpgcheck = 0
