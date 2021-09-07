@@ -1,0 +1,26 @@
+- name: Play to install Jenkins on Localhost
+  hosts: localhost
+  tasks:
+          - name: Getting the Jenkins Repository
+            get_url:
+                    dest: /etc/yum.repos.d/jenkins.repo
+                    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+          - name: Getting the RPM Key for the Jenkins Installation
+            rpm_key:
+                state: present
+                key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+          - name: Installing Java 11 OpenJDK
+            package:
+              name: java-11-openjdk
+              state: present
+            register: installed
+
+          - name: Installing Jenkins
+            package:
+              name: jenkins
+              state: present
+            when: installed.rc == 0
+
+
