@@ -1,0 +1,3 @@
+---
+# vars file for Configuring-RedHat-DVD-RHEL8-VM
+dvd_path: "/dvd"
